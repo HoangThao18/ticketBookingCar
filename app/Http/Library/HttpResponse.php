@@ -15,13 +15,13 @@ class HttpResponse
     ]);
   }
 
-  public static function respondError($message = null, $data = null)
+  public static function respondError($message = null, $data = null, $code = 401)
   {
     return response()->json([
       'success' => false,
       'data' => $data,
       'errors' => $message
-    ], 401);
+    ], $code);
   }
 
   public static function respondUnAuthenticated($message = "Unauthenticated")
