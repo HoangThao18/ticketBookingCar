@@ -9,7 +9,7 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
   //lấy model tương ứng
   public function getModel()
   {
-    return \App\Models\Product::class;
+    return \App\Models\Car::class;
   }
 
   public function getCar()

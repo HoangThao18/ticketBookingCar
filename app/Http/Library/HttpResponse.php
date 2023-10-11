@@ -10,17 +10,16 @@ class HttpResponse
   {
     return response()->json([
       'success' => true,
+      'message' => $message,
       'data' => $data,
-      'message' => $message
     ]);
   }
 
-  public static function respondError($message = null, $data = null, $code = 401)
+  public static function respondError($message = null, $code = 401)
   {
     return response()->json([
       'success' => false,
-      'data' => $data,
-      'errors' => $message
+      'errors' => $message,
     ], $code);
   }
 

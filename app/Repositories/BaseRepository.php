@@ -30,13 +30,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
   public function getAll()
   {
-    return $this->model->all();
+    return $this->model->paginate(10);
   }
 
   public function find($id)
   {
-    $result = $this->model->find($id);
-
+    $result = $this->model->findOrFail($id);
     return $result;
   }
 
@@ -47,7 +46,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
   public function update($id, $attributes = [])
   {
-    $result = $this->find($id);
+    $result = $this->model->findOrFail($id);
     if ($result) {
       $result->update($attributes);
       return $result;
