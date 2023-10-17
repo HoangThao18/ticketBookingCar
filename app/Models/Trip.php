@@ -30,4 +30,9 @@ class Trip extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function stops()
+    {
+        return $this->hasMany(Stop::class);
+    }
 }

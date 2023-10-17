@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Library\HttpResponse;
 use App\Models\Car;
 use App\Repositories\Car\CarRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CarController extends Controller
 {

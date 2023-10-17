@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Route;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreTripRequest extends FormRequest
+class ActionTripRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +22,10 @@ class StoreTripRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            'departure_time' => "required",
-            "arrival_time" => "required",
+            'departure_time' => "required|date_format:Y-m-d\TH:i|after:1 hours",
+            "arrival_time" => "required|date_format:Y-m-d\TH:i|after:1 hours",
             "route_id" => ["required", Rule::exists('routes', 'id')],
             "car_id" => ["required", Rule::exists('cars', 'id')],
             "driver_id" => ["required", Rule::exists('users', 'id')->where('role', "driver")],

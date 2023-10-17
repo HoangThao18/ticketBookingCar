@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\TripController;
+use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\CarController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +27,7 @@ Route::post("/register", [RegisterController::class, "register"]);
 Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
 
-Route::apiResource("/trip", TripController::class);
-
-Route::get("/car", [CarController::class, 'index']);
-Route::get("/car/{id}", [CarController::class, 'show']);
+Route::get("/trip/{trip}", [TripController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [LoginController::class, 'getUser']);

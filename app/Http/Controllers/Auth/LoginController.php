@@ -59,7 +59,6 @@ class LoginController extends Controller
             return $validated;
         }
 
-
         $user =  Socialite::driver($provider)->stateless()->user();
 
         if (!$user) {

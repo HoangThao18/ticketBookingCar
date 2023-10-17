@@ -3,17 +3,21 @@
 namespace App\Repositories\Trip;
 
 use App\Repositories\BaseRepository;
+use App\Repositories\Route\RouteRepository;
 
 class TripRepository extends BaseRepository implements TripRepositoryInterface
 {
-  //lấy model tương ứng
+  protected $routeRepository;
+
   public function getModel()
   {
     return \App\Models\Trip::class;
   }
 
-  public function getTrip()
+  public function searchByRoute($startLocation, $endLocation)
   {
-    return $this->model::all()->paginate(10);
+    $routeRepository = new RouteRepository;
+    $route = $routeRepository->searchByLocation($startLocation, $endLocation);
+    dd($route);
   }
 }

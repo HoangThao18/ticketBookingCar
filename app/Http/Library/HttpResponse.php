@@ -6,16 +6,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpResponse
 {
-  public static function respondWithSuccess($data, $message = null)
+  public static function respondWithSuccess($data, $message = "", $code = 200)
   {
     return response()->json([
       'success' => true,
       'message' => $message,
       'data' => $data,
-    ]);
+    ], $code);
   }
 
-  public static function respondError($message = null, $code = 401)
+  public static function respondError($message = "", $code = 401)
   {
     return response()->json([
       'success' => false,
@@ -31,7 +31,7 @@ class HttpResponse
     ], Response::HTTP_UNAUTHORIZED);
   }
 
-  public static function respondNotFound($data, $message = "Not found")
+  public static function respondNotFound($message = "Not found")
   {
     return response()->json([
       'success' => false,

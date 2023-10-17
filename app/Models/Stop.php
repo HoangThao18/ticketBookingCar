@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Stop extends Model
 {
     use HasFactory;
+
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
 }
