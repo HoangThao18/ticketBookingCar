@@ -16,8 +16,9 @@ class TripResource extends JsonResource
     {
         return [
             "route" => new RouteResource($this->route),
-            "stops" => StopResource::collection($this->stops),
+            "departure_time" => $this->departure_time,
             'car' => new CarResource($this->car),
+            "stops" => StopResource::collection($this->stops->sortBy("time_in")),
             'tickets' => TicketResource::collection($this->tickets->sortBy('seat.position', SORT_NATURAL))
         ];
     }

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Route extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['start_location', "end_location"];
 }

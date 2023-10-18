@@ -25,7 +25,7 @@ class TripController extends Controller
      */
     public function index()
     {
-        $trips = $this->tripRepository->getAll();
+        $trips = $this->tripRepository->getTrips();
         $tripCollection = new TripCollection($trips);
         return HttpResponse::respondWithSuccess($tripCollection);
     }
@@ -55,8 +55,7 @@ class TripController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $trip = $this->tripRepository->find($id);
-        $trip->update($request->all());
+        $trip = $this->tripRepository->update($id, $request->all());
         return HttpResponse::respondWithSuccess([], "updated successfully");
     }
 

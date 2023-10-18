@@ -6,5 +6,7 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface TripRepositoryInterface extends BaseRepositoryInterface
 {
-  public function findByRoute($routeId);
+  public function findByRoute($routeId, $time);
+
+  public function getTrips();
 }
