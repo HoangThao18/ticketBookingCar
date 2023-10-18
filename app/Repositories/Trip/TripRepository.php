@@ -14,10 +14,8 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return \App\Models\Trip::class;
   }
 
-  public function searchByRoute($startLocation, $endLocation)
+  public function findByRoute($routeId)
   {
-    $routeRepository = new RouteRepository;
-    $route = $routeRepository->searchByLocation($startLocation, $endLocation);
-    dd($route);
+    return $this->model::where('route_id', $routeId)->paginate(10);
   }
 }

@@ -11,9 +11,4 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
   {
     return \App\Models\Car::class;
   }
-
-  public function getCar()
-  {
-    return $this->model::all()->paginate(10);
-  }
 }

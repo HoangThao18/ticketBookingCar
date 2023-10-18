@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\API\Admin\TripController;
-use App\Http\Controllers\API\Admin\UserControllser;
+use App\Http\Controllers\API\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-  Route::apiResource('/trip', UserControllser::class);
-  Route::apiResource('/user', UserControllser::class);
+  Route::post('/trip', [TripController::class, "store"]);
+  Route::get('/trip', [TripController::class, "index"]);
+  Route::put('/trip', [TripController::class, "update"]);
+  Route::delete('/trip/{trip}', [TripController::class, "destroy"]);
+  Route::apiResource('/user', UserController::class);
 });

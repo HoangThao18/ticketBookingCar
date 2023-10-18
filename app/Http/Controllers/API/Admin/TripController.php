@@ -8,7 +8,7 @@ use App\Http\Requests\ActionTripRequest;
 use App\Http\Resources\TripCollection;
 use App\Http\Resources\TripResource;
 use App\Models\Trip;
-use App\Repositories\Trip\TripRepository;
+use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -16,7 +16,7 @@ class TripController extends Controller
 {
     private $tripRepository;
 
-    public function __construct(TripRepository $tripRepository)
+    public function __construct(TripRepositoryInterface $tripRepository)
     {
         $this->tripRepository = $tripRepository;
     }

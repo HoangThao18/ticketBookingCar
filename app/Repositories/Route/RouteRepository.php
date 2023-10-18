@@ -16,6 +16,6 @@ class RouteRepository extends BaseRepository implements RouteRepositoryInterface
 
   public function searchByLocation($startLocation, $endLocation)
   {
-    return $this->model::where('start_location', $startLocation)->where('end_location', $endLocation)->findOrFail();
+    return $this->model::where('start_location', $startLocation)->where('end_location', $endLocation)->firstOrFail();
   }
 }

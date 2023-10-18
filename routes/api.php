@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,12 @@ Route::post("/register", [RegisterController::class, "register"]);
 Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
 
+Route::get("/trip/search", [TripController::class, 'search']);
 Route::get("/trip/{trip}", [TripController::class, 'show']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [LoginController::class, 'getUser']);
+    Route::get('/user/profile', [LoginController::class, 'getUser']);
+    Route::put("/user", [UserController::class, 'update']);
+    Route::put("/user/change-password", [UserController::class, 'changePassword']);
 });
