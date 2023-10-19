@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ use function Laravel\Prompts\password;
 */
 
 Route::post("/login", [LoginController::class, "login"]);
+Route::get("/logout", [LogoutController::class, "logout"]);
 Route::post("/forgot-password", [ResetPasswordController::class, "forgotPassword"])->name('password.reset');
 Route::post("/reset-password", [ResetPasswordController::class, "reset"]);
 Route::post("/register", [RegisterController::class, "register"]);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Admin\RouteController;
+use App\Http\Controllers\API\Admin\StationController;
 use App\Http\Controllers\API\Admin\TripController;
 use App\Http\Controllers\API\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -12,4 +13,5 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete('/trip/{trip}', [TripController::class, "destroy"]);
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/route', RouteController::class);
+  Route::apiResource('/station', StationController::class);
 });
