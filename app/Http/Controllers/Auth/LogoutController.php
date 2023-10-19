@@ -11,6 +11,6 @@ class LogoutController extends Controller
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        HttpResponse::respondWithSuccess(null, "logout successfully");
+        return HttpResponse::respondWithSuccess(null, "logout successfully");
     }
 }

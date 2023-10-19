@@ -23,7 +23,6 @@ use function Laravel\Prompts\password;
 */
 
 Route::post("/login", [LoginController::class, "login"]);
-Route::get("/logout", [LogoutController::class, "logout"]);
 Route::post("/forgot-password", [ResetPasswordController::class, "forgotPassword"])->name('password.reset');
 Route::post("/reset-password", [ResetPasswordController::class, "reset"]);
 Route::post("/register", [RegisterController::class, "register"]);
@@ -35,6 +34,7 @@ Route::get("/trip/{trip}", [TripController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get("/logout", [LogoutController::class, "logout"]);
     Route::get('/user/profile', [LoginController::class, 'getUser']);
     Route::put("/user", [UserController::class, 'update']);
     Route::put("/user/change-password", [UserController::class, 'changePassword']);
