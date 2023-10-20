@@ -49,7 +49,8 @@ class LoginController extends Controller
         if (!is_null($validated)) {
             return $validated;
         }
-        return Socialite::driver($provider)->stateless()->redirect();
+
+        return HttpResponse::respondWithSuccess(['url' =>  Socialite::driver('google')->stateless()->redirect()->getTargetUrl()]);
     }
 
     public function handleProviderCallback($provider)
