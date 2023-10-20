@@ -13,6 +13,6 @@ class Route extends Model
 
     public function station()
     {
-        return $this->belongsToMany(Station::class, "route_station", "route_id", "station_id");
+        return $this->belongsToMany(Station::class, "route_station", "route_id", "station_id")->withPivot('type', 'time');
     }
 }

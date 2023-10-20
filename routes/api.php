@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -30,7 +31,9 @@ Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
 
 Route::get("/trip/search", [TripController::class, 'search']);
-Route::get("/trip/{trip}", [TripController::class, 'show']);
+Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
+
+Route::get("/ticket/search", [TicketController::class, 'searchByCode']);
 
 
 Route::middleware('auth:sanctum')->group(function () {

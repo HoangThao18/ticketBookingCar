@@ -85,7 +85,7 @@ class LoginController extends Controller
             ]
         );
 
-        $token = $userCreated->createToken("access_token", expiresAt: now()->addDay(2));
+        $token = $userCreated->createToken("access_token");
         return HttpResponse::respondWithSuccess([
             'token_type' => "Bearer",
             'access_token' => $token->plainTextToken

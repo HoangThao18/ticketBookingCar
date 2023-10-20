@@ -14,12 +14,18 @@ class TripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            "route" => new RouteResource($this->route),
-            "departure_time" => $this->departure_time,
+        $data = [
+            "driver" => new UserResource($this->driver),
             'car' => new CarResource($this->car),
-            "stops" => StopResource::collection($this->stops->sortBy("time_in")),
-            'tickets' => TicketResource::collection($this->tickets->sortBy('seat.position', SORT_NATURAL))
+            "departure_time" => $this->departure_time,
+            "available_seats" => $this->available_seats,
+            "route" => new RouteResource($this->route),
         ];
+
+        if ($request->routeIs('trip.show')) {
+            $data['tickets'] = TicketResource::collection($this->tickets->sortBy('seat.position', SORT_NATURAL));
+        }
+
+        return $data;
     }
 }

@@ -23,6 +23,10 @@ class TripController extends Controller
     public function show($id)
     {
         $trip = $this->tripRepository->find($id);
+        $totalSeats = $trip->car->number_seat;
+        $soldTickets = $trip->tickets->where("status", "đã thanh toán")->count();
+        $availableSeats = $totalSeats - $soldTickets;
+        $trip->available_seats = $availableSeats;
         $tripResource = new TripResource($trip);
         return HttpResponse::respondWithSuccess($tripResource);
     }
@@ -30,7 +34,20 @@ class TripController extends Controller
     public function search(Request $request)
     {
         $route = $this->routeRepository->searchByLocation($request->start_location, $request->end_location);
-        $trip = $this->tripRepository->findByRoute($route->id, $request->time);
-        return HttpResponse::respondWithSuccess(TripResource::collection($trip));
+        $trips = $this->tripRepository->findByRoute($route->id, $request->time);
+
+        $tripsWithAvailableSeats = [];
+        foreach ($trips as $trip) {
+            $totalSeats = $trip->car->number_seat;
+            $soldTickets = $trip->tickets->where("status", "đã thanh toán")->count();
+            $availableSeats = $totalSeats - $soldTickets;
+            $trip->available_seats = $availableSeats;
+
+            if ($availableSeats > 0) {
+                $trip->available_seats = $availableSeats;
+                $tripsWithAvailableSeats[] = $trip;
+            }
+        }
+        return HttpResponse::respondWithSuccess(TripResource::collection($tripsWithAvailableSeats));
     }
 }

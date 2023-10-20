@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\User\UserRepositoryInterface::class, \App\Repositories\User\UserRepository::class);
         $this->app->bind(\App\Repositories\Station\StationRepositoryInterface::class, \App\Repositories\Station\StationRepository::class);
         $this->app->bind(\App\Repositories\Stop\StopRepositoryInterface::class, \App\Repositories\Stop\StopRepository::class);
+        $this->app->bind(\App\Repositories\Ticket\TicketRepositoryInterface::class, \App\Repositories\Ticket\TicketRepository::class);
     }
 
     /**
@@ -24,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        DB::listen(function ($query) {
+            File::append(
+                storage_path('/logs/query.log'),
+                '[' . date('Y-m-d H:i:s') . ']' . PHP_EOL . $query->sql . ' [' . implode(', ', $query->bindings) . ']' . PHP_EOL . PHP_EOL
+            );
+        });
     }
 }

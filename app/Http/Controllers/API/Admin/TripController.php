@@ -10,6 +10,7 @@ use App\Http\Resources\TripResource;
 use App\Models\Trip;
 use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class TripController extends Controller
@@ -26,6 +27,12 @@ class TripController extends Controller
     public function index()
     {
         $trips = $this->tripRepository->getTrips();
+        foreach ($trips as $trip) {
+            $totalSeats = $trip->car->number_seat;
+            $soldTickets = $trip->tickets->where("status", "đã thanh toán")->count();
+            $availableSeats = $totalSeats - $soldTickets;
+            $trip->available_seats = $availableSeats;
+        }
         $tripCollection = new TripCollection($trips);
         return HttpResponse::respondWithSuccess($tripCollection);
     }
@@ -38,16 +45,6 @@ class TripController extends Controller
         $data = $request->validated();
         $this->tripRepository->create($data);
         return HttpResponse::respondWithSuccess([], "created successfully");
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $trip = $this->tripRepository->find($id);
-        $tripResource = new TripResource($trip);
-        return HttpResponse::respondWithSuccess($tripResource);
     }
 
     /**

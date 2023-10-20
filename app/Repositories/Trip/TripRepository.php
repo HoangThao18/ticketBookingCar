@@ -18,12 +18,17 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
   {
     return $this->model::where('route_id', $routeId)
       ->where('departure_time', $time)
-      ->where("status", "scheduled")
+      ->where("status", "chờ khởi hành")
       ->paginate(10);
   }
 
   public function getTrips()
   {
-    return $this->model->orderBy('departure_time')->paginate(10);
+    return $this->model->with('car', 'route', "driver")->orderBy('departure_time')->paginate(10);
+  }
+
+  public function find($id)
+  {
+    return $this->model->with('car', 'route', "driver", 'tickets', "tickets.seat")->firstOrFail();
   }
 }

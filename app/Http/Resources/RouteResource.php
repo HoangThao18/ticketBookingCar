@@ -17,6 +17,7 @@ class RouteResource extends JsonResource
         return  [
             'start_location' => $this->start_location,
             'end_location' => $this->end_location,
+            "station" => StationResource::collection($this->station)
         ];
     }
 }
