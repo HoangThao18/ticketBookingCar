@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Bill;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class CancelBookingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +23,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email|unique:users",
-            "password" => "required|max:30|min:8",
-            "name" => "required",
-            'password_confirm' => "required|same:password",
-            'phone_number' => "required|min:10|unique:users"
+            'bill_id' => ['required']
         ];
     }
 }

@@ -26,7 +26,7 @@ class UserController extends Controller
             'name' => "required",
             'email' => ["required", "email", Rule::unique('users')->ignore(Auth::id()),],
             "address" => "required",
-            "avata" => "nullable",
+            "avatar" => "nullable",
             "phone_number" => ['required', 'min:10', Rule::unique('users')]
         ]);
 

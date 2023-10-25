@@ -9,6 +9,8 @@ class Ticket extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['seat_id', 'trip_id', 'code', "pick_up_location", "drop_off_location", "status"];
+
     public function seat()
     {
         return $this->belongsTo(Seat::class);

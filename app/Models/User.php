@@ -24,10 +24,11 @@ class User extends Authenticatable
         'email',
         'password',
         "phone_number",
-        "avata",
+        "avatar",
         "last_login_date",
         "role",
-        "address"
+        "address",
+        "email_verified_at"
     ];
 
     /**
@@ -57,7 +58,7 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token): void
     {
-        $url = 'http://localhost/ticketBookingCar/public/api/reset-password?token=' . $token;
+        $url = 'http://localhost/ticketBookingCar/public/api/reset-password?token=' . $token . "&email=" . $this->email;
 
         $this->notify(new ResetPasswordNotification($url));
     }

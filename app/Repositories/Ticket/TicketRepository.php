@@ -16,4 +16,10 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model::where('code', $code)->first();
   }
+
+
+  public function updateStatus($ticketId, $status)
+  {
+    $this->model->whereIn('id', $ticketId)->update(['status' => $status]);
+  }
 }

@@ -67,12 +67,11 @@ class LoginController extends Controller
         }
 
         $userCreated = User::firstOrCreate(
-            [
-                'email' => $user->getEmail(),
-            ],
+            ['email' => $user->email],
             [
                 'email_verified_at' => now(),
-                'name' => $user->getName(),
+                'avatar' => $user->getAvatar(),
+                "name" => $user->name,
             ]
         );
 

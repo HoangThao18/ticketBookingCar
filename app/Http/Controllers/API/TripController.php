@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Resources\PopularTripResource;
 use App\Http\Resources\TripResource;
 use App\Repositories\Route\RouteRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
@@ -49,5 +50,11 @@ class TripController extends Controller
             }
         }
         return HttpResponse::respondWithSuccess(TripResource::collection($tripsWithAvailableSeats));
+    }
+
+    public function getPopularTrips()
+    {
+        $trips = $this->tripRepository->getPopularTrips();
+        return HttpResponse::respondWithSuccess(PopularTripResource::collection($trips));
     }
 }

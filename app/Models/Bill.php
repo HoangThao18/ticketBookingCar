@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Bill extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', "payment_method", 'status', 'code'];
+
+    public function BillsDetail()
+    {
+        return $this->hasMany(BillDetail::class);
+    }
 }

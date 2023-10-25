@@ -11,4 +11,6 @@ interface TripRepositoryInterface extends BaseRepositoryInterface
   public function getTrips();
 
   public function find($id);
+
+  public function getPopularTrips();
 }

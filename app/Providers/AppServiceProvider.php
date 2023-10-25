@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\Station\StationRepositoryInterface::class, \App\Repositories\Station\StationRepository::class);
         $this->app->bind(\App\Repositories\Stop\StopRepositoryInterface::class, \App\Repositories\Stop\StopRepository::class);
         $this->app->bind(\App\Repositories\Ticket\TicketRepositoryInterface::class, \App\Repositories\Ticket\TicketRepository::class);
+        $this->app->bind(\App\Repositories\Bill\BillRepositoryInterface::class, \App\Repositories\Bill\BillRepository::class);
+        $this->app->bind(\App\Repositories\BillDetail\BillDetailRepositoryInterface::class, \App\Repositories\BillDetail\BillDetailRepository::class);
     }
 
     /**

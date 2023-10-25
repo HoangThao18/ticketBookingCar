@@ -20,7 +20,7 @@ class ResetPasswordController extends Controller
         ]);
 
         if ($validator->fails()) {
-            HttpResponse::respondError($validator->errors()->first(), null, 400);
+            return  HttpResponse::respondError($validator->errors()->first(), 400);
         }
 
         try {
