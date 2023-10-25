@@ -89,7 +89,7 @@ class LoginController extends Controller
         return HttpResponse::respondWithSuccess([
             'token_type' => "Bearer",
             'access_token' => $token->plainTextToken
-        ], "User Logged In Successfully sdfkljsdl");
+        ], "User Logged In Successfully");
     }
 
     public function validateProvider($provider)
