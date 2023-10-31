@@ -34,7 +34,7 @@ class LoginController extends Controller
                 'access_token' => $token->plainTextToken
             ], "User Logged In Successfully");
         };
-        return HttpResponse::respondError("Username or password incorrect");
+        return HttpResponse::respondError("Email or password incorrect");
     }
 
     public function getUser(Request $request)
