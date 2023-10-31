@@ -18,4 +18,14 @@ class RouteRepository extends BaseRepository implements RouteRepositoryInterface
   {
     return $this->model::where('start_location', $startLocation)->where('end_location', $endLocation)->firstOrFail();
   }
+
+  public function getStartLocation()
+  {
+    return $this->model::select('start_location')->GroupBy("start_location")->get();
+  }
+
+  public function getEndLocation($startLocation)
+  {
+    return $this->model::select('end_location')->where("start_location", $startLocation)->get();
+  }
 }

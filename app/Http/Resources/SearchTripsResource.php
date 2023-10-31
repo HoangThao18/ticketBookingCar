@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TripResource extends JsonResource
+class SearchTripsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,15 +14,12 @@ class TripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = [
-            'car' => new CarResource($this->car),
+        return  $data = [
+            'car' => ["name" => $this->car->name, "type" => $this->car->type],
+            "departure_time" => $this->departure_time,
+            "price" => $this->price,
+            "available_seats" => $this->available_seats,
             "route" => new RouteResource($this->route),
         ];
-
-        if ($request->routeIs('trip.show')) {
-            $data['tickets'] = TicketResource::collection($this->tickets->sortBy('seat.position', SORT_NATURAL));
-        }
-
-        return $data;
     }
 }

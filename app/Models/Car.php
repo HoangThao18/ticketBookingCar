@@ -13,4 +13,9 @@ class Car extends Model
     {
         return $this->hasMany(Seat::class);
     }
+
+    public function car_imgs()
+    {
+        return $this->hasMany(Car_Img::class);
+    }
 }
