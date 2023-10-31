@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\checkoutController;
+use App\Http\Controllers\API\RouteController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Auth\LoginController;
@@ -34,6 +36,10 @@ Route::get("/login/{provider}/callback", [LoginController::class, "handleProvide
 Route::get("/trip/search", [TripController::class, 'search']);
 Route::get("/popular-trips", [TripController::class, 'getPopularTrips']);
 Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
+
+Route::get("/route/start-location", [RouteController::class, 'getStartLocations']);
+Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
+
 
 Route::get("/ticket/search", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);

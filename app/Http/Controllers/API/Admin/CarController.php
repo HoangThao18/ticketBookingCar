@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Library\HttpResponse;
 use App\Models\Car;
@@ -46,8 +46,6 @@ class CarController extends Controller
      */
     public function show($id)
     {
-        $car = $this->carRepository->find($id);
-        return $car;
     }
 
     /**

@@ -33,13 +33,16 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return $this->model->with('car', 'route', "driver", 'tickets', "tickets.seat")->firstOrFail();
   }
 
-  public function getPopularTrips()
+  public function getPopularTrips($location)
   {
-    return $this->model::select('route_id', DB::raw('COUNT(*) as trip_count'))
-      ->groupBy('route_id')
-      ->with('route')
+    return DB::table('trips')
+      ->join('routes', "trips.route_id", '=', "routes.id")
+      ->select('routes.start_location', "routes.end_location", DB::raw('COUNT(*) as trip_count'))
+      ->where('routes.start_location', $location)
+      ->groupBy('routes.start_location',)
+      ->groupBy('routes.end_location',)
       ->orderByDesc('trip_count')
-      ->limit(6)
+      ->limit(3)
       ->get();
   }
 }
