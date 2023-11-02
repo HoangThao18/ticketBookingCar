@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\checkoutController;
+use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\RouteController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\Api\TripController;
@@ -39,6 +40,9 @@ Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
 Route::get("/route/start-location", [RouteController::class, 'getStartLocations']);
 Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
+
+Route::get("/news", [NewsController::class, 'index']);
+Route::get("/news/{id}", [NewsController::class, 'show']);
 
 
 Route::get("/ticket/search", [TicketController::class, 'searchByCode']);
