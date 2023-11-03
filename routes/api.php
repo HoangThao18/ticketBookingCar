@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\checkoutController;
+use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\RouteController;
 use App\Http\Controllers\API\TicketController;
@@ -42,7 +43,11 @@ Route::get("/route/start-location", [RouteController::class, 'getStartLocations'
 Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
 
 Route::get("/news", [NewsController::class, 'index']);
+Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
+Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
+
+Route::get("/job", [JobController::class, 'index']);
 
 
 Route::get("/ticket/search", [TicketController::class, 'searchByCode']);

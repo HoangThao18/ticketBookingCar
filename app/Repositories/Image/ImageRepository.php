@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repositories\CarImgs;
+namespace App\Repositories\Image;
 
 use App\Repositories\BaseRepository;
 use App\Repositories\CarImgs\CarImgsRepositoryInterface;
 
-class CarImgsRepository extends BaseRepository implements CarImgsRepositoryInterface
+class ImageRepository extends BaseRepository implements ImageRepositoryInterface
 {
   //lấy model tương ứng
   public function getModel()
   {
-    return \App\Models\Car_Imgs::class;
+    return \App\Models\Image::class;
   }
 }

@@ -27,4 +27,14 @@ class NewsController extends Controller
         $news = $this->newsRepository->find($id);
         return HttpResponse::respondWithSuccess($news);
     }
+
+    public function getPopularNews()
+    {
+        return HttpResponse::respondWithSuccess($this->newsRepository->getPopularNews());
+    }
+
+    public function getLatestNews()
+    {
+        return HttpResponse::respondWithSuccess($this->newsRepository->getLatestNews());
+    }
 }

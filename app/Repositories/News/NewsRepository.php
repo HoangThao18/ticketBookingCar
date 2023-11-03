@@ -11,4 +11,14 @@ class NewsRepository extends BaseRepository implements NewsRepositoryInterface
   {
     return \App\Models\News::class;
   }
+
+  public function getLatestNews()
+  {
+    return $this->model->orderByDesc('created_at')->limit(5)->get();
+  }
+
+  public function getPopularNews()
+  {
+    return $this->model->orderByDesc("view")->limit(5)->get();
+  }
 }

@@ -11,4 +11,14 @@ class News extends Model
     protected $table = "news";
 
     protected $fillable = ['title', 'summary', 'content', "img", "active", "view"];
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function getMorphClass()
+    {
+        return 'car';
+    }
 }

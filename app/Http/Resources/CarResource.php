@@ -14,13 +14,14 @@ class CarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'name' => $this->name,
             'license_plate' => $this->license_plate,
             'type' => $this->type,
             'status' => $this->status,
             'number_seat' => $this->number_seat,
-            "imgs" => CarImgsResoure::collection($this->car_imgs)
+            "imgs" => ImageResoure::collection($this->images)
         ];
     }
 }
