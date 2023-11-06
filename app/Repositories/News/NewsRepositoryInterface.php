@@ -6,4 +6,7 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface NewsRepositoryInterface extends BaseRepositoryInterface
 {
+  public function getPopularNews();
+
+  public function getLatestNews();
 }
