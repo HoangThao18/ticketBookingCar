@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Resources\NewsResource;
 use App\Repositories\News\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -19,13 +20,14 @@ class NewsController extends Controller
     public function index()
     {
         $news = $this->newsRepository->getAll();
-        return HttpResponse::respondWithSuccess($news);
+        return HttpResponse::respondWithSuccess(NewsResource::collection($news)->response()->getData(true));
     }
 
     public function show($id)
     {
-        $news = $this->newsRepository->find($id);
-        return HttpResponse::respondWithSuccess($news);
+        $new = $this->newsRepository->find($id);
+        $this->newsRepository->increaseView($new);
+        return HttpResponse::respondWithSuccess(new NewsResource($new));
     }
 
     public function getPopularNews()

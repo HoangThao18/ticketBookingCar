@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\checkoutController;
 use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\API\NewsController;
