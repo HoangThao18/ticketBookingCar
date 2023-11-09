@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PopularTripResource extends JsonResource
+class provinceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,8 @@ class PopularTripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
-            [
-                'start_location' => $this->start_station,
-                'end_location' => $this->end_station,
-                'price' => $this->min_price
-            ]
+        return [
+            'province' => $this->province
         ];
     }
 }

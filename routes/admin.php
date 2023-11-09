@@ -13,5 +13,4 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete('/trip/{trip}', [TripController::class, "destroy"]);
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/route', RouteController::class);
-  Route::apiResource('/station', StationController::class);
 });

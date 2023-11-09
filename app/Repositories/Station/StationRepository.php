@@ -17,4 +17,9 @@ class StationRepository extends BaseRepository implements StationRepositoryInter
   {
     return DB::table('stations')->where('province', $province)->pluck('id');
   }
+
+  public function getProvince()
+  {
+    return $this->model->select('province')->groupBy('province')->get();
+  }
 }

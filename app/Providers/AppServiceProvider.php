@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\BillDetail\BillDetailRepositoryInterface::class, \App\Repositories\BillDetail\BillDetailRepository::class);
         $this->app->bind(\App\Repositories\News\NewsRepositoryInterface::class, \App\Repositories\News\NewsRepository::class);
         $this->app->bind(\App\Repositories\Job\JobRepositoryInterface::class, \App\Repositories\Job\JobRepository::class);
-        $this->app->bind(\App\Repositories\Comment\CommentRepositoryInterface::class, \App\Repositories\Comment\JobRepository::class);
+        $this->app->bind(\App\Repositories\Comment\CommentRepositoryInterface::class, \App\Repositories\Comment\commentRepository::class);
     }
 
     /**
