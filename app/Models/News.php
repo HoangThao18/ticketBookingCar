@@ -19,6 +19,6 @@ class News extends Model
 
     public function getMorphClass()
     {
-        return 'car';
+        return 'news';
     }
 }

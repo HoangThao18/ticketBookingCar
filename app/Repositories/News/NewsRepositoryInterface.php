@@ -9,4 +9,6 @@ interface NewsRepositoryInterface extends BaseRepositoryInterface
   public function getPopularNews();
 
   public function getLatestNews();
+
+  public function increaseView($new);
 }

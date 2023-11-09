@@ -11,13 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->id();
-            $table->text('url');
-            $table->unsignedBigInteger('imageable_id');
-            $table->string('imageable_type');
-            $table->timestamps();
-            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+        Schema::table('images', function (Blueprint $table) {
             $table->foreign('imageable_id')->references('id')->on('news')->onDelete('cascade');
         });
     }

@@ -21,4 +21,9 @@ class NewsRepository extends BaseRepository implements NewsRepositoryInterface
   {
     return $this->model->orderByDesc("view")->limit(5)->get();
   }
+
+  public function increaseView($new)
+  {
+    $new->update(['view' => $new->view + 1]);
+  }
 }
