@@ -14,12 +14,15 @@ class SearchTripsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  $data = [
+        return   [
+            'id' => $this->id,
+            'start_station' => $this->start,
+            'end_station' => $this->end,
             'car' => ["name" => $this->car->name, "type" => $this->car->type],
             "departure_time" => $this->departure_time,
             "price" => $this->price,
             "available_seats" => $this->available_seats,
-            "route" => new RouteResource($this->route),
+            "schedule" => TimePointsResource::collection($this->time_points),
         ];
     }
 }

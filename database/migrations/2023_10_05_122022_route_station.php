@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('route_station', function (Blueprint $table) {
+        Schema::create('time_points', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('station_id');
-            $table->unsignedBigInteger('route_id');
-            $table->foreign('station_id')->references('id')->on('stations');
-            $table->foreign('route_id')->references('id')->on('routes');
+            $table->time('time');
+            $table->string('type');
+            $table->unsignedBigInteger('point_id');
+            $table->unsignedBigInteger('trip_id');
+            $table->foreign('point_id')->references('id')->on('points');
+            $table->foreign('trip_id')->references('id')->on('trips');
             $table->timestamps();
         });
     }

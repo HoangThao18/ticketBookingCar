@@ -15,9 +15,9 @@ class PopularTripResource extends JsonResource
     public function toArray(Request $request): array
     {
         return  [
-            'route' => [
-                'start_location' => $this->route->start_location,
-                'end_location' => $this->route->end_location,
+            [
+                'start_location' => $this->start,
+                'end_location' => $this->end,
             ]
         ];
     }

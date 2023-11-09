@@ -23,4 +23,9 @@ class Car extends Model
     {
         return 'car';
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

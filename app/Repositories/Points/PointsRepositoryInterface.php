@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Route;
+namespace App\Repositories\Points;
 
 use App\Repositories\BaseRepositoryInterface;
 
-interface RouteRepositoryInterface extends BaseRepositoryInterface
+interface PointsRepositoryInterface extends BaseRepositoryInterface
 {
   function searchByLocation($startLocation, $endLocation);
 

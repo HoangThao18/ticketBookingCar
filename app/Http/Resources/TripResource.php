@@ -14,9 +14,12 @@ class TripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         $data = [
+            'start_station' => $this->start,
+            'end_station' => $this->end,
+            "schedule" => TimePointsResource::collection($this->time_points),
             'car' => new CarResource($this->car),
-            "route" => new RouteResource($this->route),
         ];
 
         if ($request->routeIs('trip.show')) {

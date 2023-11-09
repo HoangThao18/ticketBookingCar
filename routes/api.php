@@ -38,18 +38,17 @@ Route::get("/trip/search", [TripController::class, 'search']);
 Route::get("/popular-trips", [TripController::class, 'getPopularTrips']);
 Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
-Route::get("/route/start-location", [RouteController::class, 'getStartLocations']);
-Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
+// Route::get("/route/start-location", [RouteController::class, 'getStartLocations']);
+// Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
 
 Route::get("/news", [NewsController::class, 'index']);
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
-
 Route::get("/job", [JobController::class, 'index']);
 
 
-Route::get("/ticket/search", [TicketController::class, 'searchByCode']);
+Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stops', function (Blueprint $table) {
+        Schema::create('points', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('address');
             $table->unsignedBigInteger('station_id');
-            $table->unsignedBigInteger('trip_id');
-            $table->date('time_in');
-            $table->date('time_out');
-            $table->string('status');
+            $table->foreign('station_id')->references('id')->on('stations');
             $table->timestamps();
         });
     }

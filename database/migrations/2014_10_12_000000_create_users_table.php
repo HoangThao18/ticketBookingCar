@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar');
+            $table->string('role', 10);
+            $table->string('phone_number')->unique();
+            $table->string('address', 255);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
