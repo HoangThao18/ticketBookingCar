@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CarResource extends JsonResource
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,14 +14,11 @@ class CarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
-            'name' => $this->name,
-            'license_plate' => $this->license_plate,
-            'type' => $this->type,
+            'rate' => $this->rate,
+            'user' => [$this->users->name],
             'status' => $this->status,
-            'number_seat' => $this->number_seat,
-            "imgs" => ImageResoure::collection($this->images),
+            'created_at' => $this->created_at,
         ];
     }
 }

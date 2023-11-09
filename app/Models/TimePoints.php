@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Station extends Model
+class TimePoints extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', "address"];
+    protected $table = "time_points";
 
-    public function points()
+    public function point()
     {
-        return $this->hasMany(points::class);
+        return $this->belongsTo(Points::class, 'point_id', 'id');
     }
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Repositories\Route;
+namespace App\Repositories\Points;
 
 use App\Repositories\BaseRepository;
 
-class RouteRepository extends BaseRepository implements RouteRepositoryInterface
+class PointsRepository extends BaseRepository implements PointsRepositoryInterface
 {
   protected $routeRepository;
 
   //lấy model tương ứng
   public function getModel()
   {
-    return \App\Models\Route::class;
+    return \App\Models\Point::class;
   }
 
   public function searchByLocation($startLocation, $endLocation)

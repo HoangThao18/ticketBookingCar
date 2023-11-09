@@ -4,44 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Requests\SearchTripRequest;
 use App\Http\Resources\PopularTripResource;
 use App\Http\Resources\SearchTripsResource;
 use App\Http\Resources\TripResource;
-// use App\Repositories\CarImgs\CarImgsRepositoryInterface;
-use App\Repositories\Route\RouteRepositoryInterface;
+use App\Repositories\Station\StationRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
     private $tripRepository;
-    private $routeRepository;
-    private $carImgsRepository;
+    private $stationRepository;
 
     public function __construct(
         TripRepositoryInterface $tripRepository,
-        RouteRepositoryInterface $routeRepository,
-        // CarImgsRepositoryInterface  $carImgsRepository
+        StationRepositoryInterface $stationRepository,
     ) {
         $this->tripRepository = $tripRepository;
-        $this->routeRepository = $routeRepository;
-        // $this->carImgsRepository = $carImgsRepository;
+        $this->stationRepository = $stationRepository;
     }
 
     public function show($id)
     {
         $trip = $this->tripRepository->find($id);
-        $totalSeats = $trip->car->number_seat;
-        $soldTickets = $trip->tickets->where("status", "đã thanh toán")->count();
         $tripResource = new TripResource($trip);
         return HttpResponse::respondWithSuccess($tripResource);
     }
 
-    public function search(Request $request)
+    public function search(SearchTripRequest $request)
     {
-        $route = $this->routeRepository->searchByLocation($request->start_location, $request->end_location);
-        $trips = $this->tripRepository->findByRoute($route->id, $request->time);
-
+        $startStation = $this->stationRepository->getByProvince($request->start_location);
+        $endStation = $this->stationRepository->getByProvince($request->end_location);
+        $trips = $this->tripRepository->getByRoute($startStation, $endStation);
         $tripsWithAvailableSeats = [];
         foreach ($trips as $trip) {
             $totalSeats = $trip->car->number_seat;
@@ -55,12 +50,13 @@ class TripController extends Controller
                 $tripsWithAvailableSeats[] = $trip;
             }
         }
+
         return HttpResponse::respondWithSuccess(SearchTripsResource::collection($tripsWithAvailableSeats));
     }
 
-    public function getPopularTrips(Request $request)
+    public function getPopularTrips()
     {
-        $trips = $this->tripRepository->getPopularTrips($request->location);
-        return HttpResponse::respondWithSuccess($trips);
+        $trips = $this->tripRepository->getPopularTrips();
+        return HttpResponse::respondWithSuccess(PopularTripResource::collection($trips));
     }
 }

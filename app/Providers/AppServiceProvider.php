@@ -16,15 +16,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(\App\Repositories\Car\CarRepositoryInterface::class, \App\Repositories\Car\CarRepository::class);
         $this->app->bind(\App\Repositories\Trip\TripRepositoryInterface::class, \App\Repositories\Trip\TripRepository::class);
-        $this->app->bind(\App\Repositories\Route\RouteRepositoryInterface::class, \App\Repositories\Route\RouteRepository::class);
+        $this->app->bind(\App\Repositories\Points\PointsRepositoryInterface::class, \App\Repositories\Points\PointsRepository::class);
         $this->app->bind(\App\Repositories\User\UserRepositoryInterface::class, \App\Repositories\User\UserRepository::class);
         $this->app->bind(\App\Repositories\Station\StationRepositoryInterface::class, \App\Repositories\Station\StationRepository::class);
-        $this->app->bind(\App\Repositories\Stop\StopRepositoryInterface::class, \App\Repositories\Stop\StopRepository::class);
+        $this->app->bind(\App\Repositories\TimePoints\TimePointsRepositoryInterface::class, \App\Repositories\TimePoints\TimePointsRepository::class);
         $this->app->bind(\App\Repositories\Ticket\TicketRepositoryInterface::class, \App\Repositories\Ticket\TicketRepository::class);
         $this->app->bind(\App\Repositories\Bill\BillRepositoryInterface::class, \App\Repositories\Bill\BillRepository::class);
         $this->app->bind(\App\Repositories\BillDetail\BillDetailRepositoryInterface::class, \App\Repositories\BillDetail\BillDetailRepository::class);
         $this->app->bind(\App\Repositories\News\NewsRepositoryInterface::class, \App\Repositories\News\NewsRepository::class);
         $this->app->bind(\App\Repositories\Job\JobRepositoryInterface::class, \App\Repositories\Job\JobRepository::class);
+        $this->app->bind(\App\Repositories\Comment\CommentRepositoryInterface::class, \App\Repositories\Comment\JobRepository::class);
     }
 
     /**

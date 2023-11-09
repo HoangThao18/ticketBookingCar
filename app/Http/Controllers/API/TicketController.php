@@ -19,18 +19,9 @@ class TicketController extends Controller
         $this->ticketRepository = $ticketRepository;
     }
 
-    public function searchByCode(Request $request)
+    public function searchByCode(String $code)
     {
-        $validator = Validator::make($request->all(), [
-            'code' => "required"
-        ]);
-
-        if ($validator->fails()) {
-            return HttpResponse::respondError($validator->errors());
-        }
-
-        $ticket = $this->ticketRepository->searchByCode($request->code);
-
+        $ticket = $this->ticketRepository->searchByCode($code);
         if ($ticket) {
             return HttpResponse::respondWithSuccess(new DetailTicketResource($ticket));
         }

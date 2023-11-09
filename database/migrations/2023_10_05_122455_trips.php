@@ -15,15 +15,17 @@ return new class extends Migration
             $table->id();
             $table->date('departure_time');
             $table->date('arrival_time');
-            $table->unsignedBigInteger('car_id');
             $table->string('status');
-            $table->unsignedBigInteger('route_id');
+            $table->unsignedBigInteger('car_id');
+            $table->unsignedBigInteger('start_station');
+            $table->unsignedBigInteger('end_station');
             $table->unsignedBigInteger('driver_id');
             $table->timestamps();
 
             $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
             $table->foreign('driver_id')->references('id')->on('users');
-            $table->foreign('route_id')->references('id')->on('routes');
+            $table->foreign('start_station')->references('id')->on('stations');
+            $table->foreign('end_station')->references('id')->on('stations');
         });
     }
 

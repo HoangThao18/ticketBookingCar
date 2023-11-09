@@ -15,11 +15,11 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return \App\Models\Trip::class;
   }
 
-  public function findByRoute($routeId, $time)
+  public function getByRoute($startStaionIds, $endStationIds)
   {
-    return $this->model::where('route_id', $routeId)
-      ->where('departure_time', $time)
-      ->where("status", "chờ khởi hành")
+    return $this->model::whereIn('start_station', $startStaionIds)
+      ->WhereIn('end_station', $endStationIds)
+      ->Where("status", "chờ khởi hành")
       ->get();
   }
 
@@ -30,17 +30,16 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function find($id)
   {
-    return $this->model->with('car', 'route', "driver", 'tickets', "tickets.seat")->firstOrFail();
+    return $this->model->with('car', 'start', "driver", 'time_points', 'time_points.point', 'end', 'tickets', "tickets.seat")->firstOrFail();
   }
 
-  public function getPopularTrips($location)
+  public function getPopularTrips()
   {
-    return DB::table('trips')
-      ->join('routes', "trips.route_id", '=', "routes.id")
-      ->select('routes.start_location', "routes.end_location", DB::raw('COUNT(*) as trip_count'))
-      ->where('routes.start_location', $location)
-      ->groupBy('routes.start_location',)
-      ->groupBy('routes.end_location',)
+    return $this->model
+      ->with('start', 'end', 'car')
+      ->select('trips.start_station', "trips.end_station", DB::raw('COUNT(*) as trip_count'))
+      ->groupBy('trips.start_station',)
+      ->groupBy('trips.end_station',)
       ->orderByDesc('trip_count')
       ->limit(3)
       ->get();

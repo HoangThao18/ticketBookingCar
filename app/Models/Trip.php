@@ -11,14 +11,9 @@ class Trip extends Model
 
     protected $fillable = ['departure_time', "arrival_time", 'car_id', "status", "driver_id"];
 
-    public function Car()
+    public function car()
     {
         return $this->belongsTo(Car::class);
-    }
-
-    public function route()
-    {
-        return $this->belongsTo(Route::class);
     }
 
     public function driver()
@@ -31,8 +26,18 @@ class Trip extends Model
         return $this->hasMany(Ticket::class);
     }
 
-    public function stops()
+    public function start()
     {
-        return $this->hasMany(Stop::class);
+        return $this->hasOne(Station::class, 'id', "start_station");
+    }
+
+    public function end()
+    {
+        return $this->hasOne(Station::class, "id", "end_station");
+    }
+
+    public function time_points()
+    {
+        return $this->hasMany(TimePoints::class);
     }
 }
