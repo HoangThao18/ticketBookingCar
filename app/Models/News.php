@@ -10,7 +10,7 @@ class News extends Model
     use HasFactory;
     protected $table = "news";
 
-    protected $fillable = ['title', 'summary', 'content', "img", "active", "view"];
+    protected $fillable = ['title', 'summary', 'content', "active"];
 
     public function images()
     {
@@ -20,5 +20,10 @@ class News extends Model
     public function getMorphClass()
     {
         return 'news';
+    }
+
+    public function saveImage($path)
+    {
+        return $this->images()->create(['url' => $path]);
     }
 }
