@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\StationController;
+use App\Http\Controllers\API\CarController;
 use App\Http\Controllers\API\checkoutController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\RouteController;
@@ -35,17 +38,17 @@ Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
 
 Route::get("/trip/search", [TripController::class, 'search']);
-Route::get("/popular-trips", [TripController::class, 'getPopularTrips']);
+Route::get("/trip/popular", [TripController::class, 'getPopularTrips']);
 Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
-// Route::get("/route/start-location", [RouteController::class, 'getStartLocations']);
-// Route::get("/route/end-location", [RouteController::class, 'getEndLocations']);
-
+Route::get("/station", [StationController::class, 'index']);
 Route::get("/news", [NewsController::class, 'index']);
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
+
+Route::get("car/{id}/comments", [CommentController::class, 'show']);
 
 
 Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
@@ -54,8 +57,12 @@ Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
     Route::get("/logout", [LogoutController::class, "logout"]);
-    Route::get('/user/profile', [LoginController::class, 'getUser']);
-    Route::put('/user/cancel-booking', [checkoutController::class, 'cancelBooking']);
-    Route::put("/user", [UserController::class, 'update']);
-    Route::put("/user/change-password", [UserController::class, 'changePassword']);
+
+    Route::prefix('user')->group(function () {
+        Route::get('profile', [LoginController::class, 'getUser']);
+        Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
+        Route::put("", [UserController::class, 'update']);
+        Route::put("change-password", [UserController::class, 'changePassword']);
+        Route::post("comment", [CommentController::class, 'store']);
+    });
 });

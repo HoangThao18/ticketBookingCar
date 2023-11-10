@@ -7,4 +7,6 @@ use App\Repositories\BaseRepositoryInterface;
 interface StationRepositoryInterface extends BaseRepositoryInterface
 {
   public function getByProvince($province);
+
+  public function getProvince();
 }
