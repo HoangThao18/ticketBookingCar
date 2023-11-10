@@ -36,7 +36,7 @@ class TripController extends Controller
     {
         $startStation = $this->stationRepository->getByProvince($request->start_location);
         $endStation = $this->stationRepository->getByProvince($request->end_location);
-        $trips = $this->tripRepository->getByRoute($startStation, $endStation);
+        $trips = $this->tripRepository->getByRoute($startStation, $endStation, $request->date);
         $tripsWithAvailableSeats = [];
         foreach ($trips as $trip) {
             $totalSeats = $trip->car->number_seat;

@@ -15,10 +15,11 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return \App\Models\Trip::class;
   }
 
-  public function getByRoute($startStaionIds, $endStationIds)
+  public function getByRoute($startStaionIds, $endStationIds, $date)
   {
     return $this->model::whereIn('start_station', $startStaionIds)
       ->WhereIn('end_station', $endStationIds)
+      ->where('departure_time', $date)
       ->Where("status", "chờ khởi hành")
       ->get();
   }

@@ -24,7 +24,7 @@ class SearchTripRequest extends FormRequest
         return [
             'start_location' => "required|string",
             'end_location' => "required|string",
-            'date' => "required|date",
+            'date' => "required|date_format:Y-m-d|after:yesterday",
             'amount' => "required",
         ];
     }
