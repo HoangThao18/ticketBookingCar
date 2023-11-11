@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Seat;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,9 +15,11 @@ class SeatResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'position' => $this->position,
             'type' => $this->type,
             'price' => $this->price,
+            'status' => $this->status
         ];
     }
 }

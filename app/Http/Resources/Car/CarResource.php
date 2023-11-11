@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Car;
 
+use App\Http\Resources\image\ImageResoure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

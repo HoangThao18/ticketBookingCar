@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Ticket;
 
+use App\Http\Resources\TimePoint\TimePointsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TripResource extends JsonResource
+class TicketTripResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +15,11 @@ class TripResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
-        $data = [
+        return [
             'start_station' => $this->start,
             'end_station' => $this->end,
+            'departure_time' => $this->departure_time,
             "schedule" => TimePointsResource::collection($this->time_points),
-            'car' => new CarResource($this->car),
         ];
-
-        if ($request->routeIs('trip.show')) {
-            $data['tickets'] = TicketResource::collection($this->tickets->sortBy('seat.position', SORT_NATURAL));
-        }
-
-        return $data;
     }
 }

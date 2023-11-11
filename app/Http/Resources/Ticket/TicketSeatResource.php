@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Ticket;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class ImageResoure extends JsonResource
+class TicketSeatResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +14,10 @@ class ImageResoure extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'url' => asset(Storage::url($this->url))
-        ];
+        return
+            [
+                'position' => $this->position,
+                'price' => $this->price
+            ];
     }
 }

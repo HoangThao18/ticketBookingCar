@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
-use App\Http\Resources\NewsResource;
+use App\Http\Resources\News\NewsResource;
 use App\Repositories\News\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 

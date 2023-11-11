@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\image;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
-class TimePointsResource extends JsonResource
+class ImageResoure extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +16,7 @@ class TimePointsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->point->name,
-            'address' => $this->point->address,
-            'time' => $this->time,
-            'type' => $this->type
+            'url' => asset(Storage::url($this->url))
         ];
     }
 }

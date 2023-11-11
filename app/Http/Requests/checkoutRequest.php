@@ -23,25 +23,11 @@ class checkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => "required|numeric",
-            'bankc_code' => "required|string",
-            "tickets" => ['required'],
-            'tickets.*' => [
-                'required',
-                function ($artribute, $value, $fail) {
-                    if ($value) {
-                        $ticket = Ticket::find($value);
-                        if (!$ticket) {
-                            $fail("The {$artribute} is not exists.");
-                        } else {
-                            $seat_position = $ticket->seat->position;
-                            if ($ticket->status !== "còn trống") {
-                                $fail("seat position {$seat_position} is invalid");
-                            }
-                        }
-                    }
-                }
-            ]
+            'bank_code' => "required|string",
+            "trip_id" => ['required'],
+            'seat_id' => ['required', 'array'],
+            "pickup_location" => "required",
+            "dropoff_location" => "required"
         ];
     }
 }

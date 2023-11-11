@@ -9,4 +9,10 @@ interface TicketRepositoryInterface extends BaseRepositoryInterface
   public function searchByCode($code);
 
   public function updateStatus($id, $status);
+
+  public function getByTrip($id);
+
+  public function createMany($artribute);
+
+  public function getByBill($id);
 }

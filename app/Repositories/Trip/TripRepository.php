@@ -31,7 +31,12 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function find($id)
   {
-    return $this->model->with('car', 'start', "driver", 'time_points', 'time_points.point', 'end', 'tickets', "tickets.seat")->firstOrFail();
+    return $this->model->with('car', 'start', "driver", 'time_points', 'time_points.point', 'end', 'tickets', "tickets.seat")->findOrFail($id);
+  }
+
+  public function findNotAssociateColumn($id)
+  {
+    return $this->model->findOrFail($id);
   }
 
   public function getPopularTrips()

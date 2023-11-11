@@ -14,6 +14,6 @@ class BillRepository extends BaseRepository implements BillRepositoryInterface
 
   public function findByCode($code)
   {
-    return $this->model->with('BillsDetail')->where('code', $code)->firstOrFail();
+    return $this->model->where('code', $code)->firstOrFail();
   }
 }

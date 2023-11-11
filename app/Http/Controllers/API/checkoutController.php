@@ -8,8 +8,9 @@ use App\Http\Requests\cancelBooking;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
 use App\Repositories\Bill\BillRepositoryInterface;
-use App\Repositories\BillDetail\BillDetailRepositoryInterface;
+use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Ticket\TicketRepositoryInterface;
+use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -18,17 +19,59 @@ use Illuminate\Support\Str;
 class checkoutController extends Controller
 {
     private $ticketRepository;
+    private $tripRepository;
+    private $seatRepository;
     private $billRepository;
-    private $billDetailRepository;
-    public function __construct(TicketRepositoryInterface $ticketRepository, BillRepositoryInterface $billRepository, BillDetailRepositoryInterface $billDetailRepository)
-    {
+    public function __construct(
+        TicketRepositoryInterface $ticketRepository,
+        TripRepositoryInterface $tripRepository,
+        SeatsRepositoryInterface $seatRepository,
+        BillRepositoryInterface $billRepository
+    ) {
         $this->ticketRepository = $ticketRepository;
+        $this->tripRepository = $tripRepository;
+        $this->seatRepository = $seatRepository;
         $this->billRepository = $billRepository;
-        $this->billDetailRepository = $billDetailRepository;
     }
     public function vnpayPayment(checkoutRequest $request)
     {
 
+        $trip = $this->tripRepository->findNotAssociateColumn($request->trip_id);
+        $seats = $this->seatRepository->getByCar($trip->car_id);
+        $codeBill = Str::random(10);
+        $total = 0;
+        $ticketsCreate = [];
+        $arrayUniqueSeatId =  array_unique($request->seat_id);
+
+        $bill = $this->billRepository->create([
+            "user_id" => Auth::id(),
+            'payment_method' => "thanh toán online",
+            'status' => "pending",
+            "code" => $codeBill
+        ]);
+        foreach ($arrayUniqueSeatId as  $seatId) {
+            $isValid = $seats->contains('id', $seatId);
+            if (!$isValid) {
+                return HttpResponse::respondNotFound("seat is invalid");
+            }
+            $seat = $seats->find($seatId);
+            $total += $seat->price;
+            $ticketsCreate[] =
+                [
+                    "trip_id" => $trip->id,
+                    "seat_id" => $seatId,
+                    "user_id" => Auth::id(),
+                    "code" =>  Str::random(10),
+                    "price" => $seat->price,
+                    "bill_id" => $bill->id,
+                    'pickup_location' => $request->pickup_location,
+                    'dropoff_location' => $request->dropoff_location,
+                    "status" => "pending",
+                ];
+        }
+        foreach ($ticketsCreate as  $ticket) {
+            $this->ticketRepository->create($ticket);
+        }
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
@@ -37,14 +80,14 @@ class checkoutController extends Controller
         $vnp_TmnCode = "86HQZ6IJ"; //Mã website tại VNPAY 
         $vnp_HashSecret = "VXFDSCHEORUPTSTIHSKFDTVMTSSYGHDC"; //Chuỗi bí mật
 
-        $vnp_TxnRef = Str::random(10); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = $codeBill; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = "thanh toán đơn hàng";
         $vnp_OrderType = "billpayment";
-        $vnp_Amount = $request->amount * 100;
+        $vnp_Amount = $total * 100;
         $vnp_Locale = "VN";
-        $vnp_BankCode = $request->bankCode;
+        $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_ExpireDate = Carbon::now()->addMinutes(5)->format('YmdHis');
+        $vnp_ExpireDate = Carbon::now()->addMinutes(1)->format('YmdHis');
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -89,30 +132,16 @@ class checkoutController extends Controller
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
 
-        $this->ticketRepository->updateStatus($request->tickets, "đang thanh toán");
-        $dataCreatBill = [
-            'user_id' => Auth::id(),
-            'payment_method' => "thanh toán online",
-            'status' => "đang thanh toán",
-            "code" => $vnp_TxnRef
-        ];
-        $bill = $this->billRepository->create($dataCreatBill);
-
-        $dataCreatBillDetail = [];
-
-        foreach ($request->tickets as $id) {
-            $dataCreatBillDetail[] = ['ticket_id' => $id];
-        }
-        $bill->BillsDetail()->createMany($dataCreatBillDetail);
         return HttpResponse::respondWithSuccess($vnp_Url);
     }
 
     public function vnpayReturn(Request $request)
     {
         $bill = $this->billRepository->findByCode($request->vnp_TxnRef);
-        $ticketIds = $this->billDetailRepository->getTicketIdsByBill($bill->id);
+        $tickets = $this->ticketRepository->getByBill($bill->id)->toArray();
+        $ticketIds = array_column($tickets, 'id');
         if ($request->vnp_TransactionStatus == 00) {
-            $this->ticketRepository->updateStatus($ticketIds, "đã đặt");
+            $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
             return HttpResponse::respondWithSuccess([
                 'bill' => [
@@ -123,8 +152,8 @@ class checkoutController extends Controller
                 ]
             ], "Giao dịch được thực hiện thành công");
         } else {
-            $this->ticketRepository->updateStatus($ticketIds, "còn trống");
-            $this->billRepository->delete($bill->id);
+            $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
+            $this->billRepository->update($bill->id, ['status' => "thanh toán thất bại"]);
             return HttpResponse::respondError("thanh toán thất bại");
         }
     }
@@ -133,9 +162,10 @@ class checkoutController extends Controller
     {
         try {
             $bill = $this->billRepository->find($request->bill_id);
-            $ticketIds = $this->billDetailRepository->getTicketIdsByBill($bill->id);
+            $tickets = $this->ticketRepository->getByBill($bill->id)->toArray();
+            $ticketIds = array_column($tickets, 'id');
             $this->billRepository->update($bill->id, ['status' => "đã hủy"]);
-            $this->ticketRepository->updateStatus($ticketIds, "còn trống");
+            $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
             return HttpResponse::respondWithSuccess([], "Hủy vé thành công");
         } catch (\Exception $e) {
             return HttpResponse::respondError($e->getMessage());

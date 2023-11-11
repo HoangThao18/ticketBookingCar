@@ -8,6 +8,7 @@ use App\Http\Requests\ActionTripRequest;
 use App\Http\Resources\TripCollection;
 use App\Http\Resources\TripResource;
 use App\Models\Trip;
+use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Http;
 class TripController extends Controller
 {
     private $tripRepository;
+    private $seatsRepository;
 
-    public function __construct(TripRepositoryInterface $tripRepository)
+    public function __construct(TripRepositoryInterface $tripRepository, SeatsRepositoryInterface $seatsRepository)
     {
         $this->tripRepository = $tripRepository;
+        $this->seatsRepository = $seatsRepository;
     }
     /**
      * Display a listing of the resource.
@@ -43,7 +46,8 @@ class TripController extends Controller
     public function store(ActionTripRequest $request)
     {
         $data = $request->validated();
-        $this->tripRepository->create($data);
+        $newTrip = $this->tripRepository->create($data);
+        $seats = $this->seatsRepository->getByCar($data->car_id);
         return HttpResponse::respondWithSuccess([], "created successfully");
     }
 

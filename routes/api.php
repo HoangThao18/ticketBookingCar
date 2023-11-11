@@ -49,16 +49,14 @@ Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
 
 Route::get("car/{id}/comments", [CommentController::class, 'show']);
-
-
 Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
-    Route::get("/logout", [LogoutController::class, "logout"]);
 
     Route::prefix('user')->group(function () {
+        Route::get("/logout", [LogoutController::class, "logout"]);
+        Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
         Route::get('profile', [LoginController::class, 'getUser']);
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
         Route::put("", [UserController::class, 'update']);
