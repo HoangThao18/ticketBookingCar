@@ -20,6 +20,6 @@ class StationController extends Controller
     public function index()
     {
         $provinces = $this->stationRepository->getProvince();
-        return HttpResponse::respondWithSuccess(provinceResource::collection($provinces));
+        return HttpResponse::respondWithSuccess($provinces);
     }
 }

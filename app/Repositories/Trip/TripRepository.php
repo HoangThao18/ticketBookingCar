@@ -15,10 +15,11 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return \App\Models\Trip::class;
   }
 
-  public function getByRoute($startStaionIds, $endStationIds)
+  public function getByRoute($startStaionIds, $endStationIds, $date)
   {
     return $this->model::whereIn('start_station', $startStaionIds)
       ->WhereIn('end_station', $endStationIds)
+      ->where('departure_time', $date)
       ->Where("status", "chờ khởi hành")
       ->get();
   }
@@ -30,7 +31,12 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function find($id)
   {
-    return $this->model->with('car', 'start', "driver", 'time_points', 'time_points.point', 'end', 'tickets', "tickets.seat")->firstOrFail();
+    return $this->model->with('car', 'start', "driver", 'time_points', 'time_points.point', 'end', 'tickets', "tickets.seat")->findOrFail($id);
+  }
+
+  public function findNotAssociateColumn($id)
+  {
+    return $this->model->findOrFail($id);
   }
 
   public function getPopularTrips()

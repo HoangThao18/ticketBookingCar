@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Ticket;
 
+
+use App\Http\Resources\Ticket\SeatResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,9 +18,10 @@ class DetailTicketResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'seat' => new SeatResource($this->seat),
+            'user' => new UserResource($this->user),
+            'trip' => new TicketTripResource($this->trip),
+            'seat' => new TicketSeatResource($this->seat),
             'status' => $this->status,
-            'trip' => new TripResource($this->trip),
         ];
     }
 }

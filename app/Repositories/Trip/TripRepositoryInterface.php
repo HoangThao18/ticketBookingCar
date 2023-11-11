@@ -6,11 +6,13 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface TripRepositoryInterface extends BaseRepositoryInterface
 {
-  public function getByRoute($startStationIds, $endStationIds);
+  public function getByRoute($startStationIds, $endStationIds, $date);
 
   public function getTrips();
 
   public function find($id);
 
   public function getPopularTrips();
+
+  public function findNotAssociateColumn($id);
 }

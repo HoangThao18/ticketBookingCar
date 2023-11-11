@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\StoreCommentRequest;
-use App\Http\Resources\CommentResource;
+use App\Http\Resources\Comment\CommentResource;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

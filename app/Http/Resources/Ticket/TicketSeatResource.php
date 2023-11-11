@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Ticket;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TicketResource extends JsonResource
+class TicketSeatResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,10 @@ class TicketResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'seat' => new SeatResource($this->seat),
-            'status' => $this->status
-        ];
+        return
+            [
+                'position' => $this->position,
+                'price' => $this->price
+            ];
     }
 }

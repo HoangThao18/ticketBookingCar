@@ -9,7 +9,7 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['seat_id', 'trip_id', 'code', "pick_up_location", "drop_off_location", "status"];
+    protected $fillable = ['seat_id', 'trip_id', 'user_id', 'bill_id', 'price', 'code', "pickup_location", "dropoff_location", "status"];
 
     public function seat()
     {
@@ -19,5 +19,10 @@ class Ticket extends Model
     public function trip()
     {
         return $this->belongsTo(Trip::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

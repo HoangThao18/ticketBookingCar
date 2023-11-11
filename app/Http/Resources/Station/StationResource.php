@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Station;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RouteResource extends JsonResource
+class StationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,11 @@ class RouteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
-            'start_location' => $this->start_location,
-            'end_location' => $this->end_location,
-            "station" => StationResource::collection($this->station)
+        return [
+            'name' => $this->name,
+            'address' => $this->address,
+            'type' => $this->pivot->type,
+            'time' => $this->pivot->time,
         ];
     }
 }

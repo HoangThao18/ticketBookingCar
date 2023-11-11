@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
-use App\Http\Resources\DetailTicketResource;
+use App\Http\Resources\Ticket\DetailTicketResource;
 use App\Http\Resources\TicketResource;
 use App\Repositories\Ticket\TicketRepository;
 use Illuminate\Http\Request;
@@ -22,6 +22,7 @@ class TicketController extends Controller
     public function searchByCode(String $code)
     {
         $ticket = $this->ticketRepository->searchByCode($code);
+
         if ($ticket) {
             return HttpResponse::respondWithSuccess(new DetailTicketResource($ticket));
         }
