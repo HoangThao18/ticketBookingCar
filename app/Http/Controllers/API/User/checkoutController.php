@@ -7,6 +7,7 @@ use App\Http\Library\HttpResponse;
 use App\Http\Requests\cancelBooking;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
+use App\Notifications\BillPaid;
 use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Ticket\TicketRepositoryInterface;
@@ -116,7 +117,7 @@ class checkoutController extends Controller
         $vnp_Locale = "VN";
         $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_ExpireDate = Carbon::now()->addMinutes(1)->format('YmdHis');
+        $vnp_ExpireDate = Carbon::now()->addMinutes(10)->format('YmdHis');
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -172,10 +173,11 @@ class checkoutController extends Controller
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
+            $bill->user->notify(new BillPaid($request->vnp_Amount / 100, $bill->code));
             return HttpResponse::respondWithSuccess([
                 'bill' => [
                     'code' => $bill->code,
-                    "amount" => $request->vnp_Amount,
+                    "amount" => $request->vnp_Amount / 100,
                     "content" => "thanh toán hóa đơn",
                     "backCode" => $request->vnp_BankCode,
                 ]

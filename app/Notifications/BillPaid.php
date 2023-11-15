@@ -39,8 +39,9 @@ class BillPaid extends Notification
     {
         return (new MailMessage)
             ->subject('Thanh toán hóa đơn thành công')
-            ->line('mã đơn hàng: (' . $this->orderNumber . ') ')
-            ->line('Số tiền thanh toán: ' . $this->amountPaid . "VND")
+            ->line(' Thanh toán hóa đơn của bạn đã được xác nhận thành công.')
+            ->line('Mã đơn hàng: ' . $this->orderNumber)
+            ->line('Số tiền thanh toán: ' . $this->amountPaid . " VND")
             ->line('Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
     }
 
