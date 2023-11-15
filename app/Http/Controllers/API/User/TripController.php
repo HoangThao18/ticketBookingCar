@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API\User;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;

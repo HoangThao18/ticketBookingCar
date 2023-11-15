@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\User\UserResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -40,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
                 '[' . date('Y-m-d H:i:s') . ']' . PHP_EOL . $query->sql . ' [' . implode(', ', $query->bindings) . ']' . PHP_EOL . PHP_EOL
             );
         });
+
+        JsonResource::withoutWrapping();
     }
 }

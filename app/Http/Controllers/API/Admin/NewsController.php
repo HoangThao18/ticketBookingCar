@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\StoreNewsRequest;
+use App\Models\News;
 use App\Repositories\News\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Exists;
@@ -17,35 +18,20 @@ class NewsController extends Controller
         $this->newsRepository = $newsRepository;
     }
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreNewsRequest $request)
     {
-        $news = $this->newsRepository->create($request->except(['imgs']));
+        $news = $request->validated();
         if ($request->file('img')) {
             $file = $request->file('img');
             $fileName = $file->getClientOriginalName();
             $filePath = 'public/uploads/news';
             $path = $file->storeAs($filePath, $fileName);
-            $news->saveImage($path);
+            $news['img'] = $path;
         }
+        $news = $this->newsRepository->create($news);
         return HttpResponse::respondWithSuccess([], "created successfully");
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -53,7 +39,11 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $status =  $this->newsRepository->update($id, $request->all());
+        if ($status) {
+            return HttpResponse::respondWithSuccess([], "updated successfully");
+        }
+        return HttpResponse::respondError("Something wrong");
     }
 
     /**
@@ -61,6 +51,10 @@ class NewsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $status = $this->newsRepository->delete($id);
+        if ($status) {
+            return HttpResponse::respondWithSuccess([], "deleted successfully");
+        }
+        return HttpResponse::respondError("Something wrong");
     }
 }
