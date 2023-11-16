@@ -81,9 +81,11 @@ class checkoutController extends Controller
 
         foreach ($arrayUniqueSeatId as  $seatId) {
             $isValid = $seats->contains('id', $seatId);
+
             if (!$isValid) {
                 return HttpResponse::respondNotFound("seat is invalid");
             }
+
             $seat = $seats->find($seatId);
             $total += $seat->price;
             $ticketsCreate[] =
