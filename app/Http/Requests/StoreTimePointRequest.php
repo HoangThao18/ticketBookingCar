@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Ticket;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class checkoutRequest extends FormRequest
+class StoreTimePointRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,10 @@ class checkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "trip_id" => ['required'],
-            'seat_id' => ['required', 'array'],
-            'name' => "required",
-            "phone_number" => "required",
-            'email' => "required",
-            "pickup_location" => "required",
-            "dropoff_location" => "required"
+            'point_id' => "array",
+            'point_id.*' => ["required", Rule::exists('points', 'id')],
+            "trip_id" =>  ["required", Rule::exists('trips', 'id')],
+            'type' => ["required", "array"],
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
 
@@ -21,7 +21,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepository->getAll();
+        $users = $this->userRepository->getUser();
+        $usersCollection = UserResource::collection($users)->response()->getData(true);
+        return HttpResponse::respondWithSuccess($usersCollection);
+    }
+
+    public function getdriver()
+    {
+        $users = $this->userRepository->getDriver();
         $usersCollection = UserResource::collection($users)->response()->getData(true);
         return HttpResponse::respondWithSuccess($usersCollection);
     }

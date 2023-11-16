@@ -23,7 +23,8 @@ class StoreStationRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "address" => "nullable"
+            "address" => "required",
+            "province" => "required",
         ];
     }
 }

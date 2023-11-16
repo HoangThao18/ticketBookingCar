@@ -1,18 +1,29 @@
 <?php
 
+use App\Http\Controllers\API\Admin\CarController;
+use App\Http\Controllers\API\Admin\CommentController;
 use App\Http\Controllers\API\Admin\NewsController;
-use App\Http\Controllers\API\Admin\RouteController;
+use App\Http\Controllers\API\Admin\SeatController;
 use App\Http\Controllers\API\Admin\StationController;
+use App\Http\Controllers\API\Admin\timePointController;
 use App\Http\Controllers\API\Admin\TripController;
 use App\Http\Controllers\API\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-  Route::post("/news", [NewsController::class, 'store']);
-  Route::post('/trip', [TripController::class, "store"]);
-  Route::get('/trip', [TripController::class, "index"]);
-  Route::put('/trip', [TripController::class, "update"]);
-  Route::delete('/trip/{trip}', [TripController::class, "destroy"]);
+  Route::apiResource('/car', CarController::class);
+  Route::get("/car/{id}/seat", [SeatController::class, "getByCar"]);
+  Route::apiResource('/seat', SeatController::class)->only('update', 'destroy');
+
+  Route::apiResource('/comment', CommentController::class)->only(['index', 'update', 'destroy']);
+
+  Route::apiResource('/news', NewsController::class)->only(['store', 'destroy', 'update']);
+
+  Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
+
+  Route::apiResource('/station', StationController::class);
+
   Route::apiResource('/user', UserController::class);
-  Route::apiResource('/route', RouteController::class);
+  Route::get("/driver", [UserController::class, "getDriver"]);
+  Route::post("timePoint", [timePointController::class, "store"]);
 });

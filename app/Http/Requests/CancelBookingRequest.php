@@ -23,7 +23,7 @@ class CancelBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'bill_id' => ['required']
+            'bill_id' => ['required'],
         ];
     }
 }

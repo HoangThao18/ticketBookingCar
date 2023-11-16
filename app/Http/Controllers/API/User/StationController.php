@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\User;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
@@ -17,7 +18,7 @@ class StationController extends Controller
         $this->stationRepository = $stationRepository;
     }
 
-    public function index()
+    public function getProvince()
     {
         $provinces = $this->stationRepository->getProvince();
         return HttpResponse::respondWithSuccess($provinces);

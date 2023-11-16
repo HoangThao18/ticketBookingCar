@@ -9,7 +9,7 @@ class Station extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', "address"];
+    protected $fillable = ['name', "address", 'province'];
 
     public function points()
     {

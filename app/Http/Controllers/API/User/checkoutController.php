@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\cancelBooking;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
+use App\Notifications\BillPaid;
 use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Ticket\TicketRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -22,17 +24,33 @@ class checkoutController extends Controller
     private $tripRepository;
     private $seatRepository;
     private $billRepository;
+    private $userRepository;
     public function __construct(
         TicketRepositoryInterface $ticketRepository,
         TripRepositoryInterface $tripRepository,
         SeatsRepositoryInterface $seatRepository,
-        BillRepositoryInterface $billRepository
+        BillRepositoryInterface $billRepository,
+        UserRepositoryInterface $userRepository
     ) {
         $this->ticketRepository = $ticketRepository;
         $this->tripRepository = $tripRepository;
         $this->seatRepository = $seatRepository;
         $this->billRepository = $billRepository;
+        $this->userRepository = $userRepository;
     }
+
+    public function create_bill($user, $codeBill)
+    {
+        $bill =  $this->billRepository->create([
+            "user_id" => $user->id,
+            'payment_method' => "thanh toán online",
+            'status' => "pending",
+            "code" => $codeBill
+        ]);
+
+        return $bill;
+    }
+
     public function vnpayPayment(checkoutRequest $request)
     {
 
@@ -42,13 +60,25 @@ class checkoutController extends Controller
         $total = 0;
         $ticketsCreate = [];
         $arrayUniqueSeatId =  array_unique($request->seat_id);
+        $user = $this->userRepository->getByEmail($request->email);
 
-        $bill = $this->billRepository->create([
-            "user_id" => Auth::id(),
-            'payment_method' => "thanh toán online",
-            'status' => "pending",
-            "code" => $codeBill
-        ]);
+        if ($user) {
+            $bill = $this->create_bill($user, $codeBill);
+        } else {
+            $user = $this->userRepository->getByPhone($request->phone_number);
+            if ($user) {
+                $bill = $this->create_bill($user, $codeBill);
+            } else {
+
+                $user = $this->userRepository->create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone_number' => $request->phone_number,
+                ]);
+                $bill = $this->create_bill($user, $codeBill);
+            }
+        }
+
         foreach ($arrayUniqueSeatId as  $seatId) {
             $isValid = $seats->contains('id', $seatId);
             if (!$isValid) {
@@ -60,7 +90,7 @@ class checkoutController extends Controller
                 [
                     "trip_id" => $trip->id,
                     "seat_id" => $seatId,
-                    "user_id" => Auth::id(),
+                    "user_id" => $user->id,
                     "code" =>  Str::random(10),
                     "price" => $seat->price,
                     "bill_id" => $bill->id,
@@ -87,7 +117,7 @@ class checkoutController extends Controller
         $vnp_Locale = "VN";
         $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_ExpireDate = Carbon::now()->addMinutes(1)->format('YmdHis');
+        $vnp_ExpireDate = Carbon::now()->addMinutes(10)->format('YmdHis');
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -143,10 +173,11 @@ class checkoutController extends Controller
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
+            $bill->user->notify(new BillPaid($request->vnp_Amount / 100, $bill->code));
             return HttpResponse::respondWithSuccess([
                 'bill' => [
                     'code' => $bill->code,
-                    "amount" => $request->vnp_Amount,
+                    "amount" => $request->vnp_Amount / 100,
                     "content" => "thanh toán hóa đơn",
                     "backCode" => $request->vnp_BankCode,
                 ]

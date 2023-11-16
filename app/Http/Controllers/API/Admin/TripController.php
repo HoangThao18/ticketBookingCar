@@ -5,8 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\ActionTripRequest;
-use App\Http\Resources\TripCollection;
-use App\Http\Resources\TripResource;
+use App\Http\Resources\Trip\TripCollection;
 use App\Models\Trip;
 use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
@@ -30,14 +29,7 @@ class TripController extends Controller
     public function index()
     {
         $trips = $this->tripRepository->getTrips();
-        foreach ($trips as $trip) {
-            $totalSeats = $trip->car->number_seat;
-            $soldTickets = $trip->tickets->where("status", "đã thanh toán")->count();
-            $availableSeats = $totalSeats - $soldTickets;
-            $trip->available_seats = $availableSeats;
-        }
-        $tripCollection = new TripCollection($trips);
-        return HttpResponse::respondWithSuccess($tripCollection);
+        return HttpResponse::respondWithSuccess($trips);
     }
 
     /**
@@ -47,7 +39,6 @@ class TripController extends Controller
     {
         $data = $request->validated();
         $newTrip = $this->tripRepository->create($data);
-        $seats = $this->seatsRepository->getByCar($data->car_id);
         return HttpResponse::respondWithSuccess([], "created successfully");
     }
 

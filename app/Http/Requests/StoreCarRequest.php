@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Ticket;
 use Illuminate\Foundation\Http\FormRequest;
 
-class checkoutRequest extends FormRequest
+class StoreCarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +22,11 @@ class checkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "trip_id" => ['required'],
-            'seat_id' => ['required', 'array'],
             'name' => "required",
-            "phone_number" => "required",
-            'email' => "required",
-            "pickup_location" => "required",
-            "dropoff_location" => "required"
+            'license_plate' => "required|unique:cars",
+            'number_seat' => "required",
+            'type' => "required",
+            "img" => "nullable",
         ];
     }
 }
