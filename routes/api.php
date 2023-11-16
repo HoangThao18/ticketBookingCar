@@ -54,7 +54,6 @@ Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 
 Route::middleware('auth:sanctum')->group(function () {
-
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::get('profile', [LoginController::class, 'getUser']);
