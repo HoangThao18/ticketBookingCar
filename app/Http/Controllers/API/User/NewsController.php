@@ -32,11 +32,11 @@ class NewsController extends Controller
 
     public function getPopularNews()
     {
-        return HttpResponse::respondWithSuccess($this->newsRepository->getPopularNews());
+        return HttpResponse::respondWithSuccess(NewsResource::collection($this->newsRepository->getPopularNews()));
     }
 
     public function getLatestNews()
     {
-        return HttpResponse::respondWithSuccess($this->newsRepository->getLatestNews());
+        return HttpResponse::respondWithSuccess(NewsResource::collection($this->newsRepository->getLatestNews()));
     }
 }
