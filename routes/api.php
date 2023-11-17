@@ -32,7 +32,7 @@ use function Laravel\Prompts\password;
 
 Route::post("/login", [LoginController::class, "login"]);
 Route::post("/forgot-password", [ResetPasswordController::class, "forgotPassword"])->name('password.reset');
-Route::get("/reset-password", [ResetPasswordController::class, "reset"]);
+Route::post("/reset-password", [ResetPasswordController::class, "reset"]);
 Route::post("/register", [RegisterController::class, "register"]);
 Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
