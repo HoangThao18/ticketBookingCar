@@ -61,7 +61,7 @@ class TripController extends Controller
         $tripsWithAvailableSeats = [];
         foreach ($trips as $trip) {
             $totalSeats = $trip->car->number_seat;
-            $soldTickets = $trip->tickets->where("status", "booked")->count();
+            $soldTickets = $this->TicketsRepository->CountSoldTickets($trip->id);
             $availableSeats = $totalSeats - $soldTickets;
             $trip->available_seats = $availableSeats;
 

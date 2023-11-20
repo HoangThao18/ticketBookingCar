@@ -39,7 +39,15 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $status =  $this->newsRepository->update($id, $request->all());
+        $news = $request->all();
+        if ($request->file('img')) {
+            $file = $request->file('img');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'public/uploads/news';
+            $path = $file->storeAs($filePath, $fileName);
+            $news['img'] = $path;
+        }
+        $status =  $this->newsRepository->update($id, $news);
         if ($status) {
             return HttpResponse::respondWithSuccess([], "updated successfully");
         }

@@ -17,7 +17,8 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
 
   Route::apiResource('/comment', CommentController::class)->only(['index', 'update', 'destroy']);
 
-  Route::apiResource('/news', NewsController::class)->only(['store', 'destroy', 'update']);
+  Route::apiResource('/news', NewsController::class)->only(['store', 'destroy']);
+  Route::post("/news/update/{id}", [NewsController::class, "update"]);
 
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
 

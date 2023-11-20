@@ -57,7 +57,15 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $status =  $this->carRepository->update($id, $request->all());
+        $updateData = $request->all();
+        if ($request->file('img')) {
+            $file = $request->file('img');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'public/uploads/car';
+            $path = $file->storeAs($filePath, $fileName);
+            $updateData['img'] = $path;
+        }
+        $status =  $this->carRepository->update($id, $updateData);
         if ($status) {
             return HttpResponse::respondWithSuccess([], "updated successfully");
         }

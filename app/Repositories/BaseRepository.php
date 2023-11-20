@@ -49,6 +49,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     $result = $this->model->findOrFail($id);
     if ($result) {
       $result->update($attributes);
+
       return $result;
     }
 
