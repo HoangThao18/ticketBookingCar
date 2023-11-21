@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\Admin\CommentController;
 use App\Http\Controllers\API\Admin\NewsController;
+use App\Http\Controllers\API\Admin\PointController;
 use App\Http\Controllers\API\Admin\SeatController;
 use App\Http\Controllers\API\Admin\StationController;
 use App\Http\Controllers\API\Admin\timePointController;
@@ -23,6 +24,8 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
 
   Route::apiResource('/station', StationController::class);
+  Route::get("/station/{id}/points", [PointController::class, "getByStation"]);
+
 
   Route::apiResource('/user', UserController::class);
   Route::get("/driver", [UserController::class, "getDriver"]);

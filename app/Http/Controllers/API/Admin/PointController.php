@@ -17,6 +17,13 @@ class PointController extends Controller
     }
 
 
+    public function getByStation($station_id)
+    {
+        $points = $this->pointRepository->getByStation($station_id);
+        return HttpResponse::respondWithSuccess($points);
+    }
+
+
     /**
      * Update the specified resource in storage.
      */

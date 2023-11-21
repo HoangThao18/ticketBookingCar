@@ -26,7 +26,7 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function getTrips()
   {
-    return $this->model->with('car', "driver")->orderBy('departure_time')->paginate(10);
+    return $this->model->with('car', "driver")->orderByDesc('departure_time')->paginate(10);
   }
 
   public function find($id)

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
-use App\Http\Requests\ActionTripRequest;
+use App\Http\Requests\StoreTripRequest;
+use App\Http\Resources\Admin\Trip\AdminTripResource;
 use App\Http\Resources\Trip\TripCollection;
 use App\Models\Trip;
 use App\Repositories\Seats\SeatsRepositoryInterface;
@@ -29,15 +30,15 @@ class TripController extends Controller
     public function index()
     {
         $trips = $this->tripRepository->getTrips();
-        return HttpResponse::respondWithSuccess($trips);
+        return HttpResponse::respondWithSuccess(AdminTripResource::collection($trips));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ActionTripRequest $request)
+    public function store(StoreTripRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->except('pick_up', 'drop_off');
         $newTrip = $this->tripRepository->create($data);
         return HttpResponse::respondWithSuccess([], "created successfully");
     }

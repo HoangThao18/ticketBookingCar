@@ -18,10 +18,17 @@ class DetailTicketResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => new UserResource($this->user),
-            'trip' => new TicketTripResource($this->trip),
+            'user' => [
+                "name" => $this->user->name,
+                "email" => $this->user->email,
+                "phone_number" => $this->user->phone_number,
+
+            ],
             'seat' => new TicketSeatResource($this->seat),
-            'status' => $this->status,
+            'code' => $this->code,
+            "pickup_location" => $this->pickup_location,
+            "dropoff_location" => $this->dropoff_location,
+            'trip' => new TicketTripResource($this->trip),
         ];
     }
 }

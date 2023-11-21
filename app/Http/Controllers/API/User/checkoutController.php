@@ -7,6 +7,7 @@ use App\Http\Library\HttpResponse;
 use App\Http\Requests\cancelBooking;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
+use App\Http\Resources\Ticket\DetailTicketResource;
 use App\Notifications\BillPaid;
 use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\Seats\SeatsRepositoryInterface;
@@ -170,20 +171,22 @@ class checkoutController extends Controller
     public function vnpayReturn(Request $request)
     {
         $bill = $this->billRepository->findByCode($request->vnp_TxnRef);
-        $tickets = $this->ticketRepository->getByBill($bill->id)->toArray();
-        $ticketIds = array_column($tickets, 'id');
+        $tickets = $this->ticketRepository->getByBill($bill->id);
+        $ticketIds = array_column($tickets->toArray(), 'id');
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
             $bill->user->notify(new BillPaid($request->vnp_Amount / 100, $bill->code));
-            return HttpResponse::respondWithSuccess([
+            $responseData = [
                 'bill' => [
                     'code' => $bill->code,
-                    "amount" => $request->vnp_Amount / 100,
-                    "content" => "thanh toán hóa đơn",
-                    "backCode" => $request->vnp_BankCode,
+                    "total" => $request->vnp_Amount / 100,
+                    "message" => "thanh toán hóa đơn",
+                    "tickets" => DetailTicketResource::collection($tickets)
                 ]
-            ], "Giao dịch được thực hiện thành công");
+            ];
+
+            return HttpResponse::respondWithSuccess($responseData, "Giao dịch được thực hiện thành công");
         } else {
             $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
             $this->billRepository->update($bill->id, ['status' => "thanh toán thất bại"]);

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ActionTripRequest extends FormRequest
+class StoreTripRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +29,8 @@ class ActionTripRequest extends FormRequest
             "end_station" => ["required", Rule::exists('stations', 'id')],
             "car_id" => ["required", Rule::exists('cars', 'id')],
             "driver_id" => ["required", Rule::exists('users', 'id')->where('role', "driver")],
+            "pick_up" => "nullable",
+            "drop_off" => "nullable",
         ];
     }
 }
