@@ -30,9 +30,9 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $comment)
     {
-        $status =  $this->commentRepository->update($id, $request->all());
+        $status =  $this->commentRepository->update($comment, $request->all());
         if ($status) {
             return HttpResponse::respondWithSuccess([], "updated successfully");
         }
@@ -42,9 +42,9 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $comment)
     {
-        $status = $this->commentRepository->delete($id);
+        $status = $this->commentRepository->delete($comment);
         if ($status) {
             return HttpResponse::respondWithSuccess([], "deleted successfully");
         }

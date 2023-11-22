@@ -21,6 +21,7 @@ class SearchTripsResource extends JsonResource
             'end_station' => $this->end,
             'car' => ["name" => $this->car->name, "type" => $this->car->type],
             "departure_time" => $this->departure_time,
+            "arrival_time" => $this->arrival_time,
             "price" => $this->price,
             "available_seats" => $this->available_seats,
             "schedule" => TimePointsResource::collection($this->time_points),

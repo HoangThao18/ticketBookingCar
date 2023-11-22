@@ -10,6 +10,8 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
 
   public function getUser();
 
+  public function getDriver();
+
   public function getByEmail($email);
 
   public function getByPhone($phone);

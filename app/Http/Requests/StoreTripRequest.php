@@ -24,13 +24,15 @@ class StoreTripRequest extends FormRequest
     {
 
         return [
-            'departure_time' => "required|date_format:Y-m-d\TH:i|after: yesterday",
+            'departure_time' => "required|date_format:Y-m-d H:i:s|after:now",
+            'arrival_time' => "required|date_format:Y-m-d H:i:s|after:departure_time",
             "start_station" => ["required", Rule::exists('stations', 'id')],
             "end_station" => ["required", Rule::exists('stations', 'id')],
             "car_id" => ["required", Rule::exists('cars', 'id')],
+            "status" => "nullable",
             "driver_id" => ["required", Rule::exists('users', 'id')->where('role', "driver")],
-            "pick_up" => "nullable",
-            "drop_off" => "nullable",
+            "pickups" => "nullable|array",
+            "dropoff" => "nullable|array",
         ];
     }
 }

@@ -48,6 +48,10 @@ class TripController extends Controller
             $tripSeats[] = $seat;
         };
 
+        $totalSeats = $trip->car->number_seat;
+        $soldTickets = $this->TicketsRepository->CountSoldTickets($trip->id);
+        $availableSeats = $totalSeats - $soldTickets;
+        $trip->available_seats = $availableSeats;
         $trip->setAttribute('seats', $tripSeats);
         $tripResource = new TripResource($trip);
         return HttpResponse::respondWithSuccess($tripResource);
@@ -71,7 +75,6 @@ class TripController extends Controller
                 $tripsWithAvailableSeats[] = $trip;
             }
         }
-
         return HttpResponse::respondWithSuccess(SearchTripsResource::collection($tripsWithAvailableSeats));
     }
 

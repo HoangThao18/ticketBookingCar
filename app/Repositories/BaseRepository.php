@@ -30,7 +30,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
   public function getAll()
   {
-    return $this->model->paginate(10);
+    return $this->model->get();
   }
 
   public function find($id)

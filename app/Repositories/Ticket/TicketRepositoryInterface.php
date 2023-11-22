@@ -6,6 +6,10 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface TicketRepositoryInterface extends BaseRepositoryInterface
 {
+  public function getAll();
+
+  public function find($id);
+
   public function searchByCode($code);
 
   public function updateStatus($id, $status);

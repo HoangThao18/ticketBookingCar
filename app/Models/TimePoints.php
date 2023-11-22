@@ -10,6 +10,7 @@ class TimePoints extends Model
     use HasFactory;
 
     protected $table = "time_points";
+    protected $fillable = ['type', 'time', 'point_id', 'trip_id'];
 
     public function point()
     {

@@ -44,10 +44,20 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
 
   public function CountSoldTickets($trip_id)
   {
+
     return DB::table('tickets')
       ->where('trip_id', $trip_id)
-      ->where('status', "booked")
-      ->orWhere('status', 'pending')
+      ->whereIn('status', ['booked', 'pending'])
       ->count();
+  }
+
+  public function getAll()
+  {
+    return $this->model->with('trip', 'user', 'seat')->get();
+  }
+
+  public function find($id)
+  {
+    return $this->model->with('trip', "trip.car", 'user', 'seat')->findOrFail($id);
   }
 }

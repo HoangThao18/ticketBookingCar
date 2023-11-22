@@ -11,10 +11,6 @@ class Bill extends Model
 
     protected $fillable = ['user_id', "payment_method", 'status', 'code'];
 
-    public function BillsDetail()
-    {
-        return $this->hasMany(BillDetail::class);
-    }
 
     public function user()
     {

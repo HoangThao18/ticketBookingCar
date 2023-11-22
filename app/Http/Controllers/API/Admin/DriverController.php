@@ -5,34 +5,29 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Resources\User\UserResource;
-use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class DriverController extends Controller
 {
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
+
     public function index()
     {
-        $users = $this->userRepository->getUser();
-        $usersCollection = UserResource::collection($users);
-        return HttpResponse::respondWithSuccess($usersCollection);
+        $drivers = $this->userRepository->getDriver();
+        return HttpResponse::respondWithSuccess(UserResource::collection($drivers));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $user = $this->userRepository->find($id);
-        return HttpResponse::respondWithSuccess(new UserResource($user));
+        $driver = $this->userRepository->find($id);
+        return HttpResponse::respondWithSuccess(new UserResource($driver));
     }
 
     /**

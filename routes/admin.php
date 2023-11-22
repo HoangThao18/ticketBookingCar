@@ -2,21 +2,28 @@
 
 use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\Admin\CommentController;
+use App\Http\Controllers\API\Admin\DriverController;
 use App\Http\Controllers\API\Admin\NewsController;
 use App\Http\Controllers\API\Admin\PointController;
 use App\Http\Controllers\API\Admin\SeatController;
 use App\Http\Controllers\API\Admin\StationController;
+use App\Http\Controllers\API\Admin\TicketController;
 use App\Http\Controllers\API\Admin\timePointController;
 use App\Http\Controllers\API\Admin\TripController;
 use App\Http\Controllers\API\Admin\UserController;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/car', CarController::class);
   Route::get("/car/{id}/seat", [SeatController::class, "getByCar"]);
-  Route::apiResource('/seat', SeatController::class)->only('update', 'destroy');
+  Route::put("/car/seat/{seat}", [SeatController::class, "update"]);
+  Route::delete("/car/seat/{seat}", [SeatController::class, "destroy"]);
+  Route::post("/car/seat", [SeatController::class, "store"]);
 
-  Route::apiResource('/comment', CommentController::class)->only(['index', 'update', 'destroy']);
+  Route::get("/car/comment", [CommentController::class, "index"]);
+  Route::put("/car/comment/{comment}", [CommentController::class, "update"]);
+  Route::delete("/car/comment/{comment}", [CommentController::class, "destroy"]);
 
   Route::apiResource('/news', NewsController::class)->only(['store', 'destroy']);
   Route::post("/news/update/{id}", [NewsController::class, "update"]);
@@ -24,10 +31,13 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
 
   Route::apiResource('/station', StationController::class);
-  Route::get("/station/{id}/points", [PointController::class, "getByStation"]);
+  Route::get("/station/{id}/point", [PointController::class, "getByStation"]);
+  Route::post("/station/point", [PointController::class, "store"]);
+  Route::put("/station/point/{point}", [PointController::class, "update"]);
+  Route::delete("/station/point/{point}", [PointController::class, "destroy"]);
 
+  Route::apiResource('/ticket', TicketController::class);
 
   Route::apiResource('/user', UserController::class);
-  Route::get("/driver", [UserController::class, "getDriver"]);
-  Route::post("timePoint", [timePointController::class, "store"]);
+  Route::apiResource('/driver', DriverController::class);
 });

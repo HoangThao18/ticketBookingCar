@@ -9,14 +9,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Resources\Admin\Car\AdminCarResource;
+use App\Repositories\Car\CarRepositoryInterface;
+use App\Repositories\Seats\SeatsRepository;
+use App\Repositories\Seats\SeatsRepositoryInterface;
+use App\Repositories\Ticket\TicketRepositoryInterface;
 
 class CarController extends Controller
 {
     private $carRepository;
+    private $seatsRepository;
 
-    public function __construct(CarRepository $carRepository)
-    {
+    public function __construct(
+        CarRepositoryInterface $carRepository,
+        SeatsRepositoryInterface $seatsRepository
+    ) {
         $this->carRepository = $carRepository;
+        $this->seatsRepository = $seatsRepository;
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +32,7 @@ class CarController extends Controller
     public function index()
     {
         $cars = $this->carRepository->getAll();
-        return HttpResponse::respondWithSuccess(AdminCarResource::collection($cars)->response()->getData(true));
+        return HttpResponse::respondWithSuccess(AdminCarResource::collection($cars));
     }
     /**
      * Store a newly created resource in storage.
@@ -32,6 +40,7 @@ class CarController extends Controller
     public function store(StoreCarRequest $request)
     {
         $car = $request->validated();
+        $data_seats = [];
         if ($request->file('img')) {
             $file = $request->file('img');
             $fileName = $file->getClientOriginalName();
@@ -39,7 +48,12 @@ class CarController extends Controller
             $path = $file->storeAs($filePath, $fileName);
             $car['img'] = $path;
         }
-        $this->carRepository->create($car);
+        $car = $this->carRepository->create($car);
+
+        foreach ($request->seats as $seat) {
+            $data_seats[] = ["car_id" => $car->id, "position" => $seat['position'], "type" => $seat['type'], "price" => $seat['price']];
+        }
+        $car->seats()->createMany($data_seats);
         return HttpResponse::respondWithSuccess([], 'created successfully');
     }
 
@@ -49,7 +63,7 @@ class CarController extends Controller
     public function show($id)
     {
         $car = $this->carRepository->find($id);
-        return HttpResponse::respondWithSuccess($car);
+        return HttpResponse::respondWithSuccess(new AdminCarResource($car));
     }
 
     /**
@@ -66,6 +80,7 @@ class CarController extends Controller
             $updateData['img'] = $path;
         }
         $status =  $this->carRepository->update($id, $updateData);
+
         if ($status) {
             return HttpResponse::respondWithSuccess([], "updated successfully");
         }

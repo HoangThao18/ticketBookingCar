@@ -6,4 +6,5 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface TimePointsRepositoryInterface extends BaseRepositoryInterface
 {
+  public function deleteByTrip($trip_id);
 }

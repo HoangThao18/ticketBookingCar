@@ -48,8 +48,8 @@ Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
 
-Route::get("car/{id}/comments", [CommentController::class, 'show']);
-Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
+Route::get("car/{id}/comment", [CommentController::class, 'show']);
+Route::get("/ticket/search/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 

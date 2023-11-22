@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Requests\StorePointRequest;
 use App\Repositories\Points\PointsRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,17 @@ class PointController extends Controller
         return HttpResponse::respondWithSuccess($points);
     }
 
+
+    /**
+     * store the specified resource in storage.
+     */
+
+    public function store(StorePointRequest $request)
+    {
+        $data = $request->validated();
+        $this->pointRepository->create($data);
+        return HttpResponse::respondWithSuccess([], "created successfully");
+    }
 
     /**
      * Update the specified resource in storage.

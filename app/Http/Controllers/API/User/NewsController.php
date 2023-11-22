@@ -20,7 +20,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = $this->newsRepository->getAll();
-        return HttpResponse::respondWithSuccess(NewsResource::collection($news)->response()->getData(true));
+        return HttpResponse::respondWithSuccess(NewsResource::collection($news));
     }
 
     public function show($id)

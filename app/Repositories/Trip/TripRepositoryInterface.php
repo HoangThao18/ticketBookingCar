@@ -10,6 +10,8 @@ interface TripRepositoryInterface extends BaseRepositoryInterface
 
   public function getTrips();
 
+  public function getByCarAndDepart($car_id, $departure_time);
+
   public function find($id);
 
   public function getPopularTrips();

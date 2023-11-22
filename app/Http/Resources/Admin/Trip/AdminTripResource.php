@@ -20,8 +20,9 @@ class AdminTripResource extends JsonResource
                 'start_station' => $this->start,
                 'end_station' => $this->end,
                 "departure_time" => $this->departure_time,
+                "arrival_time" => $this->arrival_time,
                 'status' => $this->status,
-                "car" => new AdminCarResource($this->car),
+                "car" => $this->car->name,
                 "driver" => $this->driver->name
             ];
     }

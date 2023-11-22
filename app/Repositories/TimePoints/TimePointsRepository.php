@@ -11,4 +11,9 @@ class TimePointsRepository extends BaseRepository implements TimePointsRepositor
   {
     return TimePoints::class;
   }
+
+  public function deleteByTrip($trip_id)
+  {
+    $this->model->where('trip_id', $trip_id)->delete();
+  }
 }
