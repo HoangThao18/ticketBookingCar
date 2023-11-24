@@ -55,7 +55,7 @@ class UserController extends Controller
         }
 
         if (!Hash::check($request->old_password, Auth()->user()->password)) {
-            return HttpResponse::respondError(["Old Password Doesn't match!"],402);
+            return HttpResponse::respondError(["Old Password Doesn't match!"], 402);
             // return HttpResponse::respondError(['old_password' =>[ "Old Password Doesn't match!"]], 402);
         }
 

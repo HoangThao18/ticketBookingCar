@@ -21,4 +21,6 @@ interface TicketRepositoryInterface extends BaseRepositoryInterface
   public function getByBill($id);
 
   public function CountSoldTickets($trip_id);
+
+  public function getHistoryBooked($id);
 }

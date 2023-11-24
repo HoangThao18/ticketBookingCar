@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Trip;
 
+use App\Http\Resources\image\ImageResoure;
 use App\Http\Resources\TimePoint\TimePointsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +20,11 @@ class SearchTripsResource extends JsonResource
             'id' => $this->id,
             'start_station' => $this->start,
             'end_station' => $this->end,
-            'car' => ["name" => $this->car->name, "type" => $this->car->type],
+            'car' => [
+                "name" =>
+                $this->car->name,
+                "type" => $this->car->type,
+            ],
             "departure_time" => $this->departure_time,
             "arrival_time" => $this->arrival_time,
             "price" => $this->price,

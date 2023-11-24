@@ -52,7 +52,6 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
       return $result;
     }
-
     return false;
   }
 

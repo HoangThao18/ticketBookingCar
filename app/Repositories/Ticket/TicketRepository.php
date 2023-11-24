@@ -60,4 +60,9 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model->with('trip', "trip.car", 'user', 'seat')->findOrFail($id);
   }
+
+  public function getHistoryBooked($id)
+  {
+    return $this->model->with('trip', 'trip.car', 'user', 'seat')->where('user_id', $id)->get();
+  }
 }
