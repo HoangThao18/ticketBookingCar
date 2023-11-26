@@ -17,6 +17,7 @@ class AdminCommentResource extends JsonResource
         return [
             'rate' => $this->rate,
             'user' => $this->user->name,
+            'avatar' => $this->user->avatar,
             "car" => $this->car->name,
             'status' => $this->status,
             'content' => $this->content,
