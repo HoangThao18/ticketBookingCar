@@ -46,7 +46,7 @@ class CarController extends Controller
             $fileName = $file->getClientOriginalName();
             $filePath = 'public/uploads/car';
             $path = $file->storeAs($filePath, $fileName);
-            $car['img'] = $path;
+            $car['primary_img'] = $path;
         }
         $car = $this->carRepository->create($car);
 
