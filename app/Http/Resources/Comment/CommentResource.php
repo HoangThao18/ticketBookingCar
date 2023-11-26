@@ -4,6 +4,7 @@ namespace App\Http\Resources\Comment;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CommentResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class CommentResource extends JsonResource
             'rate' => $this->rate,
             'user' => [
                 "name" => $this->user->name,
-                "avatar" => $this->user->avatar
+                "avatar" => asset(Storage::url($this->user->avatar)),
             ],
             'status' => $this->status,
             'content' => $this->content,
