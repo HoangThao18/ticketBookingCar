@@ -10,7 +10,7 @@ interface TicketRepositoryInterface extends BaseRepositoryInterface
 
   public function find($id);
 
-  public function searchByCode($code);
+  public function searchByCode($code, $phoneNumber);
 
   public function updateStatus($id, $status);
 

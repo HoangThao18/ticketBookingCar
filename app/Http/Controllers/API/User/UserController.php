@@ -27,14 +27,24 @@ class UserController extends Controller
             'email' => ["required", "email", Rule::unique('users')->ignore(Auth::id()),],
             "address" => "required",
             "avatar" => "nullable",
-            "phone_number" => ['required', 'min:10', Rule::unique('users')]
+            "phone_number" => ['required', 'min:10', Rule::unique('users')->ignore(Auth::id())]
         ]);
 
         if ($validator->fails()) {
             return HttpResponse::respondError($validator->errors(), 400);
         }
 
-        $status = $this->userRepository->update(Auth::id(), $validator->validated());
+        $data = $validator->validated();
+
+        if ($request->file('avatar')) {
+            $file = $request->file('img');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'public/uploads/User';
+            $path = $file->storeAs($filePath, $fileName);
+            $data['avatar'] = $path;
+        }
+
+        $status = $this->userRepository->update(Auth::id(), $data);
 
         if (!$status) {
             return HttpResponse::respondError("something wrong");

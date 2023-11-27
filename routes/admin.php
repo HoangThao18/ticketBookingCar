@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Admin\CarController;
 use App\Http\Controllers\API\Admin\CommentController;
 use App\Http\Controllers\API\Admin\DriverController;
+use App\Http\Controllers\API\Admin\JobController;
 use App\Http\Controllers\API\Admin\NewsController;
 use App\Http\Controllers\API\Admin\PointController;
 use App\Http\Controllers\API\Admin\SeatController;
@@ -37,6 +38,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete("/station/point/{point}", [PointController::class, "destroy"]);
 
   Route::apiResource('/ticket', TicketController::class);
+  Route::apiResource('/job', JobController::class);
 
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/driver', DriverController::class);

@@ -13,9 +13,11 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
     return \App\Models\Ticket::class;
   }
 
-  public function searchByCode($code)
+  public function searchByCode($code, $phoneNumber)
   {
-    return $this->model::where('code', $code)->first();
+    return $this->model::with('user')->where('code', $code)->whereHas('user', function ($query) use ($phoneNumber) {
+      $query->where('phone_number', $phoneNumber);
+    })->first();
   }
 
   public function createMany($attributes = [])

@@ -49,7 +49,7 @@ Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
 
 Route::get("car/{id}/comment", [CommentController::class, 'show']);
-Route::get("/ticket/search/{code}", [TicketController::class, 'searchByCode']);
+Route::get("/ticket/search", [TicketController::class, 'search']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 

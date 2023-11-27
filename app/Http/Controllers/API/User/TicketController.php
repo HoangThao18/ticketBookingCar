@@ -21,13 +21,23 @@ class TicketController extends Controller
         $this->ticketRepository = $ticketRepository;
     }
 
-    public function searchByCode(String $code)
+    public function search(Request $request)
     {
-        $ticket = $this->ticketRepository->searchByCode($code);
-        if ($ticket) {
-            return HttpResponse::respondWithSuccess(new DetailTicketResource($ticket));
+        $validator = Validator::make($request->all(), [
+            'phone_number' => "required",
+            'code' => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return HttpResponse::respondError($validator->errors(), 400);
         }
-        return HttpResponse::respondNotFound('ticket not found');
+
+        $ticket = $this->ticketRepository->searchByCode($validator->validated()['code'], $validator->validated()['phone_number']);
+        if (!$ticket) {
+            return HttpResponse::respondNotFound('ticket not found');
+        }
+
+        return HttpResponse::respondWithSuccess(new DetailTicketResource($ticket));
     }
 
     public function getHistory()
