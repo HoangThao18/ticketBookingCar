@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Library\HttpResponse;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -39,7 +40,7 @@ class LoginController extends Controller
 
     public function getUser(Request $request)
     {
-        return HttpResponse::respondWithSuccess($request->user());
+        return HttpResponse::respondWithSuccess(new UserResource(Auth::user()));
     }
 
     public function redirectToProvider($provider)
