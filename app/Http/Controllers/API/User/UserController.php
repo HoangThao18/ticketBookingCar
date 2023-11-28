@@ -37,7 +37,7 @@ class UserController extends Controller
         $data = $validator->validated();
 
         if ($request->file('avatar')) {
-            $file = $request->file('img');
+            $file = $request->file('avatar');
             $fileName = $file->getClientOriginalName();
             $filePath = 'public/uploads/User';
             $path = $file->storeAs($filePath, $fileName);
