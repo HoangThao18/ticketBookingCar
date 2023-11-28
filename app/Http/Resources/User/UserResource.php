@@ -5,6 +5,7 @@ namespace App\Http\Resources\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserResource extends JsonResource
 {
@@ -15,7 +16,11 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
+        if (Str::startsWith($this->avatar, 'http')) {
+            $avatarUrl = $this->avatar;
+        } else {
+            $avatarUrl = $this->avatar ? asset(Storage::url($this->avatar)) : null;
+        }
         return [
             "id" => $this->id,
             'name' => $this->name,
@@ -23,7 +28,7 @@ class UserResource extends JsonResource
             "phone_number" => $this->phone_number,
             "address" => $this->address,
             "role" => $this->role,
-            "avatar" =>   asset(Storage::url($this->avatar)),
+            "avatar" => $avatarUrl,
             "last_login_date" => $this->last_login_date,
         ];
     }
