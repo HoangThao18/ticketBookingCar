@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::get('profile', [LoginController::class, 'getUser']);
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
-        Route::put("", [UserController::class, 'update']);
+        Route::post("update", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
         Route::post("comment", [CommentController::class, 'store']);
     });
