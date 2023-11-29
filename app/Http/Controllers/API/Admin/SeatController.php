@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\StoreSeatRequest;
+use App\Repositories\Car\CarRepositoryInterface;
 use App\Repositories\Seats\SeatsRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -12,20 +13,28 @@ class SeatController extends Controller
 {
 
     private $seatRepository;
+    private $carRepository;
 
-    public function __construct(SeatsRepositoryInterface $seatRepository)
+    public function __construct(SeatsRepositoryInterface $seatRepository, CarRepositoryInterface $carRepository)
     {
         $this->seatRepository = $seatRepository;
+        $this->carRepository = $carRepository;
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSeatRequest $request)
+    public function store(StoreSeatRequest $request, $car)
     {
         $data = $request->validated();
-        $this->seatRepository->create($data);
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        $data['car_id'] = $car;
+        $status = $this->carRepository->increaseNumberSeat($car);
+        if ($status) {
+            $this->seatRepository->create($data);
+            return HttpResponse::respondWithSuccess([], "created successfully");
+        } else {
+            return HttpResponse::respondError("somgthing wrong");
+        }
     }
 
     /**
@@ -43,9 +52,10 @@ class SeatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $seat)
+    public function destroy($car, $seat)
     {
         $status = $this->seatRepository->delete($seat);
+        $this->carRepository->decreaseNumberSeat($car);
         if ($status) {
             return HttpResponse::respondWithSuccess([], "deleted successfully");
         }

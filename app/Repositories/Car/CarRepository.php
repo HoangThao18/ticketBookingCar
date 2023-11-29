@@ -11,4 +11,26 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
   {
     return \App\Models\Car::class;
   }
+
+  public function increaseNumberSeat($id)
+  {
+    $car = $this->model->findOrFail($id);
+
+    if ($car) {
+      $car->update(['number_seat' => $car->number_seat + 1]);
+      return $car;
+    }
+    return false;
+  }
+
+  public function decreaseNumberSeat($id)
+  {
+    $car = $this->model->findOrFail($id);
+
+    if ($car) {
+      $car->update(['number_seat' => $car->number_seat - 1]);
+      return $car;
+    }
+    return false;
+  }
 }

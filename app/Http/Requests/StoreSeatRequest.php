@@ -22,7 +22,6 @@ class StoreSeatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "car_id" => "required|exists:cars,id",
             "position" => "required",
             "price" => "required",
             "type" => "required",

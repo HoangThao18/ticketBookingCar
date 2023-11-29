@@ -59,9 +59,7 @@ class TripController extends Controller
 
     public function search(SearchTripRequest $request)
     {
-        $startStation = $this->stationRepository->getByProvince($request->start_location);
-        $endStation = $this->stationRepository->getByProvince($request->end_location);
-        $trips = $this->tripRepository->getByRoute($startStation, $endStation, $request->date);
+        $trips = $this->tripRepository->getByRoute($request->start_location, $request->end_location, $request->date);
         $tripsWithAvailableSeats = [];
         foreach ($trips as $trip) {
             $totalSeats = $trip->car->number_seat;

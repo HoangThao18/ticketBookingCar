@@ -16,14 +16,7 @@ class StationController extends Controller
     {
         $this->stationRepository = $stationRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $stations = $this->stationRepository->getAll();
-        return HttpResponse::respondWithSuccess($stations);
-    }
+
 
     /**
      * Store a newly created resource in storage.

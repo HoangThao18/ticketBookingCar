@@ -22,8 +22,8 @@ class SearchTripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_location' => "required|string",
-            'end_location' => "required|string",
+            'start_location' => "required",
+            'end_location' => "required",
             'date' => "required|date_format:Y-m-d|after:yesterday",
             'amount' => "required",
         ];
