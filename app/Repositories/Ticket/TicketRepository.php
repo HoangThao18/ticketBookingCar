@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class TicketRepository extends BaseRepository implements TicketRepositoryInterface
 {
-  //lấy model tương ứng
   public function getModel()
   {
     return \App\Models\Ticket::class;
