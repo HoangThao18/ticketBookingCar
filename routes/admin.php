@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete("/station/point/{point}", [PointController::class, "destroy"]);
 
   Route::apiResource('/ticket', TicketController::class);
-  Route::apiResource('/job', JobController::class);
+  Route::apiResource('/job', JobController::class)->only(['store', 'destroy', 'update']);;
 
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/driver', DriverController::class);

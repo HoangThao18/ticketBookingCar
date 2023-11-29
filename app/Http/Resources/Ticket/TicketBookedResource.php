@@ -25,6 +25,7 @@ class TicketBookedResource extends JsonResource
             'car' => new CarResource($this->trip->car),
             'seat' => new TicketSeatResource($this->seat),
             'code' => $this->code,
+            'status' => $this->status,
             "pickup_location" => $this->pickup_location,
             "dropoff_location" => $this->dropoff_location,
             'trip' => [
