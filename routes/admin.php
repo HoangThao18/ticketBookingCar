@@ -16,8 +16,9 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
-  Route::apiResource('/car', CarController::class);
+  Route::apiResource('/car', CarController::class)->except(['update']);
   Route::get("/car/{id}/seat", [SeatController::class, "getByCar"]);
+  Route::post("/car/{id}/update", [CarController::class, "update"]);
   Route::put("/car/seat/{seat}", [SeatController::class, "update"]);
   Route::delete("/car/seat/{seat}", [SeatController::class, "destroy"]);
   Route::post("/car/seat", [SeatController::class, "store"]);

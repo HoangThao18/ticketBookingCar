@@ -48,6 +48,7 @@ class CarController extends Controller
             $path = $file->storeAs($filePath, $fileName);
             $car['primary_img'] = $path;
         }
+        $car['number_seat'] = sizeof($request->seats);
         $car = $this->carRepository->create($car);
 
         foreach ($request->seats as $seat) {
@@ -77,7 +78,7 @@ class CarController extends Controller
             $fileName = $file->getClientOriginalName();
             $filePath = 'public/uploads/car';
             $path = $file->storeAs($filePath, $fileName);
-            $updateData['img'] = $path;
+            $updateData['primary_img'] = $path;
         }
         $status =  $this->carRepository->update($id, $updateData);
 

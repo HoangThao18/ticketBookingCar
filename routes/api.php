@@ -47,6 +47,7 @@ Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
+Route::get("/job/{id}", [JobController::class, 'show']);
 
 Route::get("car/{id}/comment", [CommentController::class, 'show']);
 Route::get("/ticket/search", [TicketController::class, 'search']);

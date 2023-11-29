@@ -24,7 +24,6 @@ class StoreCarRequest extends FormRequest
         return [
             'name' => "required",
             'license_plate' => "required|unique:cars",
-            'number_seat' => "required",
             'type' => "required",
             "img" => "nullable",
             "seats" => "required|array",
