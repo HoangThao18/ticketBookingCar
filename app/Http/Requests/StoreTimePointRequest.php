@@ -23,10 +23,10 @@ class StoreTimePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'point_id' => "array",
-            'point_id.*' => ["required", Rule::exists('points', 'id')],
-            "trip_id" =>  ["required", Rule::exists('trips', 'id')],
-            'type' => ["required", "array"],
+            'time' => "date_format:H:i:s|required",
+            'point_id' => "required",
+            "trip_id" => "required",
+            'type' => "required",
         ];
     }
 }

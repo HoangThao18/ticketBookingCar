@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
@@ -24,6 +25,10 @@ class UserController extends Controller
         $users = $this->userRepository->getUser();
         $usersCollection = UserResource::collection($users);
         return HttpResponse::respondWithSuccess($usersCollection);
+    }
+
+    public function store(StoreUserRequest $request)
+    {
     }
 
     /**

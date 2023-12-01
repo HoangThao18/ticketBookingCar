@@ -17,8 +17,8 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function getByRoute($startStaionIds, $endStationIds, $date)
   {
-    return $this->model::whereIn('start_station', $startStaionIds)
-      ->WhereIn('end_station', $endStationIds)
+    return $this->model::where('start_station', $startStaionIds)
+      ->Where('end_station', $endStationIds)
       ->whereDate('departure_time', $date)
       ->Where("status", "chờ khởi hành")
       ->get();

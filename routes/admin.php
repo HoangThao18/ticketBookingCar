@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::put("/station/point/{point}", [PointController::class, "update"]);
   Route::delete("/station/point/{point}", [PointController::class, "destroy"]);
 
+  Route::apiResource('/timepoint', timePointController::class);
   Route::apiResource('/ticket', TicketController::class);
   Route::apiResource('/job', JobController::class)->only(['store', 'destroy', 'update']);;
 
