@@ -15,6 +15,7 @@ class TimePointsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->point->name,
             'address' => $this->point->address,
             'time' => $this->time,

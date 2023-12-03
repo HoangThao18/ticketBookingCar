@@ -28,11 +28,11 @@ class LoginController extends Controller
             $user = User::where('email', $request->email)->first();
             $user->last_login_date = now();
             $user->save();
-            $token = $user->createToken("access_token");
+            $token = $user->createToken("access_token", expiresAt: now()->addDay())->plainTextToken;
 
             return HttpResponse::respondWithSuccess([
                 'token_type' => "Bearer",
-                'access_token' => $token->plainTextToken
+                'access_token' => $token
             ], "User Logged In Successfully");
         };
         return HttpResponse::respondError("Email or password incorrect");

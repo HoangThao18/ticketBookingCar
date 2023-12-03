@@ -23,6 +23,19 @@ class TimePointController extends Controller
         return HttpResponse::respondWithSuccess([], "created successfully");
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $status =  $this->timePointRepository->update($id, $request->all());
+        if ($status) {
+            return HttpResponse::respondWithSuccess([], "updated successfully");
+        }
+        return HttpResponse::respondError("Something wrong");
+    }
+
+
     public function destroy(string $id)
     {
         $status = $this->timePointRepository->delete($id);
