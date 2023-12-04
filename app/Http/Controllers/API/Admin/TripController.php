@@ -15,6 +15,7 @@ use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class TripController extends Controller
 {
@@ -90,5 +91,32 @@ class TripController extends Controller
         if ($status) {
             return HttpResponse::respondWithSuccess([], "deleted successfully");
         }
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id' => 'required|exists:trips',
+                'status' => 'required|string',
+            ],
+            [
+
+                'id.required' => 'Bạn chưa nhập Id', // custom message
+                'status.required' => 'bạn chưa nhập status', // custom message
+                'id.exists' => 'Chuyến xe không tồn tại' // custom message
+
+            ]
+        );
+
+        if ($validator->fails()) {
+            return HttpResponse::respondError($validator->errors());
+        }
+
+        if (!$this->tripRepository->changeStatus($request->id, $request->status)) {
+            return HttpResponse::respondWithSuccess("cập nhật thất bại");
+        }
+        return HttpResponse::respondWithSuccess("cập nhật trạng thái thành công");
     }
 }

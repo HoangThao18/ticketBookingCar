@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/news', NewsController::class)->only(['store', 'destroy']);
   Route::post("/news/update/{id}", [NewsController::class, "update"]);
 
+  Route::post("/trip/change-status", [TripController::class, "changeStatus"]);
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
 
   Route::apiResource('/station', StationController::class)->except(['index']);

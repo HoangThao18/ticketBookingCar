@@ -58,4 +58,14 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
       ->limit(6)
       ->get();
   }
+
+  public function changeStatus($id, $status)
+  {
+    $trip = $this->model->findOrFail($id);
+    if ($trip) {
+      $trip->update(['status' => $status]);
+      return true;
+    }
+    return false;
+  }
 }

@@ -17,4 +17,6 @@ interface TripRepositoryInterface extends BaseRepositoryInterface
   public function getPopularTrips();
 
   public function findNotAssociateColumn($id);
+
+  public function changeStatus($id, $status);
 }

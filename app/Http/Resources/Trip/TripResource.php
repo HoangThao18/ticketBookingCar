@@ -21,12 +21,13 @@ class TripResource extends JsonResource
         $data = [
             'start_station' => $this->start,
             'end_station' => $this->end,
-            "schedule" => TimePointsResource::collection($this->time_points->sortBy('time')),
             "departure_time" => $this->departure_time,
             "arrival_time" => $this->arrival_time,
             "driver" => $this->driver,
+            "status" => $this->status,
             "available_seats" => $this->available_seats,
             'car' => new CarResource($this->car),
+            "schedule" => TimePointsResource::collection($this->time_points->sortBy('time')),
             'seats' => SeatResource::collection($this->seats)
         ];
 
