@@ -16,6 +16,7 @@ class AdminCommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
             'rate' => $this->rate,
             'user' => $this->user->name,
             'avatar' => asset(Storage::url($this->user->avatar)),
