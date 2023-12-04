@@ -71,27 +71,13 @@ class TripController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreTripRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $trip = $this->tripRepository->findNotAssociateColumn($id);
         $status =  $this->tripRepository->update($id, $request->except('pickups', 'dropoff'));
         if (!$status) {
             return HttpResponse::respondError("Something wrong");
         }
-        $this->timePointsRepository->deleteByTrip($id);
-        if ($request->pickups) {
-            foreach ($request->pickups as  $value) {
-                $data_timePoints_pickups[] =  ["type" => "pickup", "time" => $value['time'], "point_id" => $value['pointId'], "trip_id" => $id];
-            }
-        }
 
-        if ($request->dropoff) {
-            foreach ($request->dropoff as  $value) {
-                $data_timePoints_dropoff[] =  ["type" => "dropoff", "time" => $value['time'], "point_id" => $value['pointId'], "trip_id" => $id];
-            }
-        }
-        $trip->time_points()->createMany($data_timePoints_pickups);
-        $trip->time_points()->createMany($data_timePoints_dropoff);
         return HttpResponse::respondWithSuccess([], "updated successfully");
     }
 

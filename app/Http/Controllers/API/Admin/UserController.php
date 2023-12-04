@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepository;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -27,8 +29,17 @@ class UserController extends Controller
         return HttpResponse::respondWithSuccess($usersCollection);
     }
 
-    public function store(StoreUserRequest $request)
+
+
+    public function store(CreateUserRequest $request)
     {
+        try {
+            $this->userRepository->create($request->validated());
+            return HttpResponse::respondWithSuccess([], "created successfully");
+            return response()->json(["message" => 'SUCCESS']);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 500);
+        }
     }
 
     /**
