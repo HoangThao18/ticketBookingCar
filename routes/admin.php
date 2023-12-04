@@ -25,7 +25,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete("/car/{car}/seat/{seat}", [SeatController::class, "destroy"]);
   Route::post("/car/seat", [SeatController::class, "store"]);
 
-  Route::get("/car/comment", [CommentController::class, "index"]);
+  Route::get("/comment", [CommentController::class, "index"]);
   Route::put("/car/comment/{comment}", [CommentController::class, "update"]);
   Route::delete("/car/comment/{comment}", [CommentController::class, "destroy"]);
 

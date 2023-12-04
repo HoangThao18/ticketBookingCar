@@ -19,7 +19,7 @@ class AdminCommentResource extends JsonResource
             'rate' => $this->rate,
             'user' => $this->user->name,
             'avatar' => asset(Storage::url($this->user->avatar)),
-            "car" => $this->car->name,
+            "car" => ["id" => $this->car->id, "name" => $this->car->name],
             'status' => $this->status,
             'content' => $this->content,
             'created_at' => $this->created_at,
