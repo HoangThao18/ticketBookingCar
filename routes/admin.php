@@ -26,9 +26,11 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::delete("/car/{car}/seat/{seat}", [SeatController::class, "destroy"]);
   Route::post("/car/seat", [SeatController::class, "store"]);
 
-  Route::get("/comment", [CommentController::class, "index"]);
-  Route::put("/car/comment/{comment}", [CommentController::class, "update"]);
-  Route::delete("/car/comment/{comment}", [CommentController::class, "destroy"]);
+  Route::get("comment", [CommentController::class, "index"]);
+  Route::get("comment/{id}", [CommentController::class, "show"]);
+  Route::put("comment/{comment}", [CommentController::class, "update"]);
+  Route::post("/admin/comment", [CommentController::class, "store"]);
+  Route::delete("comment/{comment}", [CommentController::class, "destroy"]);
 
   Route::apiResource('/news', NewsController::class)->only(['store', 'destroy']);
   Route::post("/news/update/{id}", [NewsController::class, "update"]);
