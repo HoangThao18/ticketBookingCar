@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
   public function getUser()
   {
-    return $this->model->where("role", 'user')->get();
+    return $this->model->get();
   }
 
   public function getDriver()
