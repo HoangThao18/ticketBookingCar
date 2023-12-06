@@ -16,4 +16,9 @@ class TimePoints extends Model
     {
         return $this->belongsTo(Points::class, 'point_id', 'id');
     }
+
+    public function trip()
+    {
+        return $this->belongsTo(trip::class, 'trip_id', 'id');
+    }
 }

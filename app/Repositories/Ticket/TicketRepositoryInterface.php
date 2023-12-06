@@ -23,4 +23,18 @@ interface TicketRepositoryInterface extends BaseRepositoryInterface
   public function CountSoldTickets($trip_id);
 
   public function getHistoryBooked($id);
+
+  public function getDailyTicketBooked();
+
+  public function getWeeklyTicketBooked();
+
+  public function getMonthlyTicketBooked();
+
+  public function getDailySales();
+
+  public function getWeeklySales();
+
+  public function getMonthlySales();
+
+  public function getTicketsBookedIn12();
 }

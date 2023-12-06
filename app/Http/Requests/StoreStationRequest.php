@@ -25,6 +25,9 @@ class StoreStationRequest extends FormRequest
             "name" => "required",
             "address" => "required",
             "province" => "required",
+            "points" => "array|nullable",
+            "points.*.name" => "required",
+            "points.*.address" => "required",
         ];
     }
 }

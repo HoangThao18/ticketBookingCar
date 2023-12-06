@@ -38,4 +38,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
   {
     return $this->model->where("phone_number", $phone)->first();
   }
+
+  public function getTotalDriver()
+  {
+    return $this->model->where('role', "driver")->count();
+  }
 }

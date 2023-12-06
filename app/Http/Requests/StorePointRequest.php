@@ -22,7 +22,7 @@ class StorePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "station_id" => "required|exsitst:stations",
+            "station_id" => "required",
             "name" => "required|string",
             "address" =>  "required|string"
         ];

@@ -24,7 +24,14 @@ class StationController extends Controller
     public function store(StoreStationRequest $request)
     {
         $data = $request->validated();
-        $this->stationRepository->create($data);
+        $station =  $this->stationRepository->create($data);
+        $data_points = [];
+        if ($request->points) {
+            foreach ($request->points as  $value) {
+                $data_points[] =  ["name" => $value['name'], "address" => $value['address'], "station_id" => $station->id];
+            }
+        };
+        $station->points()->createMany($data_points);
         return HttpResponse::respondWithSuccess([], "created successfully");
     }
 

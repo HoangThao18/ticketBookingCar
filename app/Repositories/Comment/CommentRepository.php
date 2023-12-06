@@ -16,4 +16,9 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
   {
     return $this->model->where('car_id', $carId)->get();
   }
+
+  public function getTotalComments()
+  {
+    return $this->model::count();
+  }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\API\Admin\NewsController;
 use App\Http\Controllers\API\Admin\PointController;
 use App\Http\Controllers\API\Admin\SeatController;
 use App\Http\Controllers\API\Admin\StationController;
+use App\Http\Controllers\API\Admin\StatisticController;
 use App\Http\Controllers\API\Admin\TicketController;
 use App\Http\Controllers\API\Admin\timePointController;
 use App\Http\Controllers\API\Admin\TripController;
@@ -44,6 +45,9 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/timepoint', timePointController::class);
   Route::apiResource('/ticket', TicketController::class);
   Route::apiResource('/job', JobController::class)->only(['store', 'destroy', 'update']);;
+
+  Route::get("/statistics", [StatisticController::class, "index"]);
+
 
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/driver', DriverController::class);

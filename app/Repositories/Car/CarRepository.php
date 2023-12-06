@@ -33,4 +33,9 @@ class CarRepository extends BaseRepository implements CarRepositoryInterface
     }
     return false;
   }
+
+  public function getTotalCar()
+  {
+    return $this->model::count();
+  }
 }
