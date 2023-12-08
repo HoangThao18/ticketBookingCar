@@ -6,8 +6,6 @@ use Illuminate\Console\Command;
 use App\Http\Library\HttpResponse;
 use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\Ticket\TicketRepositoryInterface;
-use App\Repositories\Seats\SeatsRepositoryInterface;
-use App\Repositories\Trip\TripRepositoryInterface;
 
 class CheckBank extends Command
 {
@@ -26,19 +24,13 @@ class CheckBank extends Command
     protected $description = 'Check bank';
 
     private $ticketRepository;
-    private $tripRepository;
-    private $seatRepository;
     private $billRepository;
     public function __construct(
         TicketRepositoryInterface $ticketRepository,
-        TripRepositoryInterface $tripRepository,
-        SeatsRepositoryInterface $seatRepository,
         BillRepositoryInterface $billRepository
     ) {
         parent::__construct();
         $this->ticketRepository = $ticketRepository;
-        $this->tripRepository = $tripRepository;
-        $this->seatRepository = $seatRepository;
         $this->billRepository = $billRepository;
     }
 
