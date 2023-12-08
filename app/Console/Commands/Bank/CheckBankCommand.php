@@ -74,5 +74,6 @@ class CheckBank extends Command
                 }
             }
         }
+        $this->info('Check successfully');
     }
 }
