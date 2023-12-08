@@ -12,7 +12,7 @@ class RegisterController extends Controller
 {
 
     public function register(StoreUserRequest $request)
-    {
+    {   
         $userNew = $request->validated();
         User::create($userNew);
         return HttpResponse::respondWithSuccess(null, "User Created Successfully");

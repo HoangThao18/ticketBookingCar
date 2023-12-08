@@ -5,6 +5,7 @@ use App\Http\Controllers\API\CarController;
 use App\Http\Controllers\API\checkoutController;
 use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\API\MailController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\RouteController;
 use App\Http\Controllers\API\TicketController;
@@ -51,12 +52,19 @@ Route::get("/job", [JobController::class, 'index']);
 Route::get("car/{id}/comments", [CommentController::class, 'show']);
 Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
+Route::get("/momo-return", [checkoutController::class, 'momoReturn']);
+Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
+Route::get("/refreshTokenMomo", [checkoutController::class, 'refreshTokenMomo']);
+
+Route::post('/send-mail', [MailController::class, 'sendMail']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
+        Route::post("getmomoqr", [checkoutController::class, 'getMomoQR']);
+        Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
         Route::get('profile', [LoginController::class, 'getUser']);
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
         Route::put("", [UserController::class, 'update']);

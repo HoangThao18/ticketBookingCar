@@ -41,4 +41,11 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model->where('bill_id', $id)->get();
   }
+
+  public function searchByTripAndSeat($trip_id, $seat_id)
+  {
+    return $this->model::where('trip_id', $trip_id)
+      ->where('seat_id', $seat_id)
+      ->first();
+  }
 }
