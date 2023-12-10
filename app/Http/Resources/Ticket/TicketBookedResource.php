@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Ticket;
 
 use App\Http\Resources\Car\CarResource;
+use App\Http\Resources\TimePoint\TimePointsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,6 +35,7 @@ class TicketBookedResource extends JsonResource
                 'arrival_time' => $this->departure_time,
                 'start_location' => $this->trip->start,
                 'end_location' => $this->trip->end,
+                "schedule" => TimePointsResource::collection($this->trip->time_points->sortBy('time')),
             ],
         ];
     }

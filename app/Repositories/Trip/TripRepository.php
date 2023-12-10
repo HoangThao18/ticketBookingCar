@@ -68,4 +68,14 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     }
     return false;
   }
+
+  public function checkCanCancelTicket($id, $date)
+  {
+    $trip = $this->find($id);
+
+    if ($date <= $trip->departure_time) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -26,7 +26,7 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
 
   public function updateStatus($ticketId, $status)
   {
-    $this->model->whereIn('id', $ticketId)->update(['status' => $status]);
+    $this->model->where('id', $ticketId)->update(['status' => $status]);
   }
 
   public function getByTrip($id)

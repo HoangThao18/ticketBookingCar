@@ -197,11 +197,12 @@ class checkoutController extends Controller
     public function cancelBooking(cancelBookingRequest $request)
     {
         try {
-            $bill = $this->billRepository->find($request->bill_id);
-            $tickets = $this->ticketRepository->getByBill($bill->id)->toArray();
-            $ticketIds = array_column($tickets, 'id');
-            $this->billRepository->update($bill->id, ['status' => "đã hủy"]);
-            $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
+            $ticket = $this->ticketRepository->find($request->ticket_id);
+            $currentTime = date("Y-m-d H:i:s");
+            if (!$this->tripRepository->checkCanCancelTicket($ticket->trip_id, $currentTime)) {
+                return HttpResponse::respondError("Chuyến xe đã khời hành. Không thể hủy vé");
+            }
+            $this->ticketRepository->updateStatus($ticket->id, "đã hủy");
             return HttpResponse::respondWithSuccess([], "Hủy vé thành công");
         } catch (\Exception $e) {
             return HttpResponse::respondError($e->getMessage());

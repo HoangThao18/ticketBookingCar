@@ -29,7 +29,7 @@ class SearchTripsResource extends JsonResource
             "arrival_time" => $this->arrival_time,
             "price" => $this->price,
             "available_seats" => $this->available_seats,
-            "schedule" => TimePointsResource::collection($this->time_points),
+            "schedule" => TimePointsResource::collection($this->time_points->sortBy('time')),
         ];
     }
 }
