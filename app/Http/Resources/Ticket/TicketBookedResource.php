@@ -31,9 +31,9 @@ class TicketBookedResource extends JsonResource
             "pickup_location" => $this->pickup_location,
             "dropoff_location" => $this->dropoff_location,
             'trip' => [
-                'departure_time' => $this->departure_time,
-                'arrival_time' => $this->departure_time,
-                'status' => $this->status,
+                'departure_time' => $this->trip->departure_time,
+                'arrival_time' => $this->trip->departure_time,
+                'status' => $this->trip->status,
                 'start_location' => $this->trip->start,
                 'end_location' => $this->trip->end,
                 "schedule" => TimePointsResource::collection($this->trip->time_points->sortBy('time')),
