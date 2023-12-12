@@ -7,12 +7,23 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        Commands\GetListMoMo::class,
+        Commands\Bank\GetListBank::class,
+        Commands\Bank\CheckBank::class,
+        Commands\Bank\GetTokenBank::class,
+        Commands\CancelBillSpending::class,
+    ];
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('sanctum:prune-expired --hours=24')->daily();
+        $schedule->command('bank:get-token')->everyThirtyMinutes();
+        $schedule->command('bank:list')->everyMinute();
+        $schedule->command('bank:check')->everyMinute();
+        $schedule->command('cancel-bill-spending')->everyMinute();
     }
 
     /**
@@ -20,7 +31,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use GuzzleHttp\Exception\RequestException;
 
 class checkoutController extends Controller
 {
@@ -206,6 +207,82 @@ class checkoutController extends Controller
             return HttpResponse::respondWithSuccess([], "Hủy vé thành công");
         } catch (\Exception $e) {
             return HttpResponse::respondError($e->getMessage());
+        }
+    }
+
+    // bank checkout
+    function getBankQR(Request $request)
+    {
+        try {
+            $trip = $this->tripRepository->findNotAssociateColumn($request->trip_id);
+            $seats = $this->seatRepository->getByCar($trip->car_id);
+            $codeBill = hash('sha256', microtime() . mt_rand());
+            $codeBill = substr($codeBill, 0, 15);
+            $total = 0;
+            $ticketsCreate = [];
+            // return response()->json(['message' => $request->all()]);
+            $arrayUniqueSeatId =  array_unique($request->seat_id);
+
+            foreach ($arrayUniqueSeatId as $seatId) {
+                $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
+                if ($isValid !== null && $isValid->status !== 'cancelled') {
+                    return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+                }
+            }
+
+            $bill = $this->billRepository->create([
+                "user_id" => Auth::id(),
+                'payment_method' => "Chuyển khoản ngân hàng",
+                'status' => "pending",
+                "code" => $codeBill
+            ]);
+
+            foreach ($arrayUniqueSeatId as $seatId) {
+                $seat = $seats->find($seatId);
+                $total += $seat->price;
+                $ticketsCreate[] =
+                    [
+                        "trip_id" => $trip->id,
+                        "seat_id" => $seatId,
+                        "user_id" => Auth::id(),
+                        "code" =>  Str::random(10),
+                        "price" => $seat->price,
+                        "bill_id" => $bill->id,
+                        'pickup_location' => $request->pickup_location,
+                        'dropoff_location' => $request->dropoff_location,
+                        "status" => "pending",
+                    ];
+            }
+            foreach ($ticketsCreate as $ticket) {
+                $this->ticketRepository->create($ticket);
+            }
+
+            // $total = 10000;
+
+            $momo = [
+                "qr" => "<img src=" . "'https://api.vietqr.io/image/963388-0377457747-Tcntxkf.jpg?accountName=BUI%20HUU%20HAU&amount=$total&addInfo=$codeBill'" . "/>",
+                "chu_tai_khoan" => "Bui Huu Hau",
+                "so_tai_khoan" => "0377457747",
+                "ngan_hang" => "Timo",
+                "noi_dung" => $codeBill,
+                "so_tien" => $total,
+                "to_time" => time() + 300,
+            ];
+
+            return HttpResponse::respondWithSuccess($momo);
+        } catch (RequestException $e) {
+            // Xử lý exception
+            return "Có lỗi xảy ra: " . $e->getMessage();
+        }
+    }
+    public function bankReturn(Request $request)
+    {
+        $codeBill = $request->code_bill;
+        $bill = $this->billRepository->findByCode($codeBill);
+        if ($bill->status == 'đã thanh toán') {
+            return HttpResponse::respondWithSuccess($bill, "Thanh toán thành công");
+        } else {
+            return HttpResponse::respondError("thanh toán thất bại");
         }
     }
 }
