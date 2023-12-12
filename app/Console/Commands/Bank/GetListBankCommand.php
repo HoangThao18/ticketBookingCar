@@ -121,8 +121,6 @@ class GetListBank extends Command
             // Xử lý lỗi
             $response = $e->getResponse();
             
-            // $this->error($e);
-            
             if ($response) {
                 $statusCode = $response->getStatusCode();
                 if($statusCode === 401){
