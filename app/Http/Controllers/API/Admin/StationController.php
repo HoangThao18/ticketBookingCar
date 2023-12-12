@@ -32,7 +32,7 @@ class StationController extends Controller
             }
         };
         $station->points()->createMany($data_points);
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -51,9 +51,9 @@ class StationController extends Controller
     {
         $status =  $this->stationRepository->update($id, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -63,8 +63,8 @@ class StationController extends Controller
     {
         $status = $this->stationRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

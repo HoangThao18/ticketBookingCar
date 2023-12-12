@@ -34,9 +34,9 @@ class TicketController extends Controller
     {
         $status =  $this->ticketRepository->update($seat, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -46,8 +46,8 @@ class TicketController extends Controller
     {
         $status = $this->ticketRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

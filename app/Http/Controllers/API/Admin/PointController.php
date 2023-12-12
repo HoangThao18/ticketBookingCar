@@ -33,7 +33,7 @@ class PointController extends Controller
     {
         $data = $request->validated();
         $this->pointRepository->create($data);
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -43,9 +43,9 @@ class PointController extends Controller
     {
         $status =  $this->pointRepository->update($id, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -55,8 +55,8 @@ class PointController extends Controller
     {
         $status = $this->pointRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

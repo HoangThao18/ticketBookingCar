@@ -47,9 +47,9 @@ class UserController extends Controller
         $status = $this->userRepository->update(Auth::id(), $data);
 
         if (!$status) {
-            return HttpResponse::respondError("something wrong");
+            return HttpResponse::respondError("Đã xảy ra lỗi");
         }
-        return HttpResponse::respondWithSuccess("updated successfuly");
+        return HttpResponse::respondWithSuccess("Cập nhật thành công");
     }
 
     public function changePassword(Request $request)
@@ -65,11 +65,11 @@ class UserController extends Controller
         }
 
         if (!Hash::check($request->old_password, Auth()->user()->password)) {
-            return HttpResponse::respondError(["Old Password Doesn't match!"], 402);
+            return HttpResponse::respondError(["Mật khẩu cũ không chính xác!"], 402);
             // return HttpResponse::respondError(['old_password' =>[ "Old Password Doesn't match!"]], 402);
         }
 
         $this->userRepository->changePassword(Auth()->user(), $request->password);
-        return HttpResponse::respondWithSuccess("change password successfully");
+        return HttpResponse::respondWithSuccess("Thay đổi mật khẩu thành công");
     }
 }

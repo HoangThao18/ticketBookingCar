@@ -36,7 +36,7 @@ class DriverController extends Controller
     public function update(Request $request, string $id)
     {
         $this->userRepository->update($id, $request->all());
-        return HttpResponse::respondWithSuccess([], "updated successfully");
+        return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
     }
 
     /**
@@ -46,7 +46,7 @@ class DriverController extends Controller
     {
         $status = $this->userRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
     }
 }

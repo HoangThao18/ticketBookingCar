@@ -55,7 +55,7 @@ class CarController extends Controller
             $data_seats[] = ["car_id" => $car->id, "position" => $seat['position'], "type" => $seat['type'], "price" => $seat['price']];
         }
         $car->seats()->createMany($data_seats);
-        return HttpResponse::respondWithSuccess([], 'created successfully');
+        return HttpResponse::respondWithSuccess([], 'Tạo thành công');
     }
 
     /**
@@ -83,9 +83,9 @@ class CarController extends Controller
         $status =  $this->carRepository->update($id, $updateData);
 
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -95,8 +95,8 @@ class CarController extends Controller
     {
         $status = $this->carRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

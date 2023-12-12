@@ -31,7 +31,7 @@ class NewsController extends Controller
             $news['img'] = $path;
         }
         $news = $this->newsRepository->create($news);
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -49,9 +49,9 @@ class NewsController extends Controller
         }
         $status =  $this->newsRepository->update($id, $news);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -61,8 +61,8 @@ class NewsController extends Controller
     {
         $status = $this->newsRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

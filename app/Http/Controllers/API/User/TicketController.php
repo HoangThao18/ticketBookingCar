@@ -34,7 +34,7 @@ class TicketController extends Controller
 
         $ticket = $this->ticketRepository->searchByCode($validator->validated()['code'], $validator->validated()['phone_number']);
         if (!$ticket) {
-            return HttpResponse::respondNotFound('ticket not found');
+            return HttpResponse::respondNotFound('Không tìm thấy vé');
         }
 
         return HttpResponse::respondWithSuccess(new DetailTicketResource($ticket));

@@ -27,7 +27,7 @@ class TimePointController extends Controller
     public function store(StoreTimePointRequest $request)
     {
         $this->timePointRepository->create($request->validated());
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -37,9 +37,9 @@ class TimePointController extends Controller
     {
         $status =  $this->timePointRepository->update($id, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
 
@@ -47,8 +47,8 @@ class TimePointController extends Controller
     {
         $status = $this->timePointRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

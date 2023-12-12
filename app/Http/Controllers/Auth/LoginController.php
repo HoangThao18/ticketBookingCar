@@ -33,9 +33,9 @@ class LoginController extends Controller
             return HttpResponse::respondWithSuccess([
                 'token_type' => "Bearer",
                 'access_token' => $token
-            ], "User Logged In Successfully");
+            ], "Đăng nhập thành công");
         };
-        return HttpResponse::respondError("Email or password incorrect");
+        return HttpResponse::respondError("tài khoản hoặc mật khẩu không hợp lệ");
     }
 
     public function getUser(Request $request)
@@ -90,13 +90,13 @@ class LoginController extends Controller
         return HttpResponse::respondWithSuccess([
             'token_type' => "Bearer",
             'access_token' => $token->plainTextToken
-        ], "User Logged In Successfully");
+        ], "Đăng nhập thành công");
     }
 
     public function validateProvider($provider)
     {
         if (!in_array($provider, ['facebook', 'google'])) {
-            return HttpResponse::respondError('Please login using facebook, google');
+            return HttpResponse::respondError('chỉ đăng nhập bằng tài khoản google');
         }
     }
 }

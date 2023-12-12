@@ -15,6 +15,6 @@ class RegisterController extends Controller
     {
         $userNew = $request->validated();
         User::create($userNew);
-        return HttpResponse::respondWithSuccess(null, "User Created Successfully");
+        return HttpResponse::respondWithSuccess(null, "Đăng kí thành công");
     }
 }

@@ -44,9 +44,9 @@ class SeatController extends Controller
     {
         $status =  $this->seatRepository->update($seat, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -57,9 +57,9 @@ class SeatController extends Controller
         $status = $this->seatRepository->delete($seat);
         $this->carRepository->decreaseNumberSeat($car);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     public function getByCar($seat)

@@ -38,7 +38,7 @@ class CommentController extends Controller
     public function store(AdminStoreComment $request)
     {
         $this->commentRepository->create(array_merge($request->validated(), ['user_id' => Auth::id()]));
-        return HttpResponse::respondWithSuccess([], "creared successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -48,9 +48,9 @@ class CommentController extends Controller
     {
         $status =  $this->commentRepository->update($comment, $request->all());
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "updated successfully");
+            return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 
     /**
@@ -60,8 +60,8 @@ class CommentController extends Controller
     {
         $status = $this->commentRepository->delete($comment);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
-        return HttpResponse::respondError("Something wrong");
+        return HttpResponse::respondError("Đã xảy ra lỗi");
     }
 }

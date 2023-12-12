@@ -76,10 +76,10 @@ class TripController extends Controller
     {
         $status =  $this->tripRepository->update($id, $request->except('pickups', 'dropoff'));
         if (!$status) {
-            return HttpResponse::respondError("Something wrong");
+            return HttpResponse::respondError("Đã xảy ra lỗi");
         }
 
-        return HttpResponse::respondWithSuccess([], "updated successfully");
+        return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
     }
 
     /**
@@ -89,7 +89,7 @@ class TripController extends Controller
     {
         $status = $this->tripRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
     }
 

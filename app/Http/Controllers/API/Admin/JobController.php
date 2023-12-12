@@ -20,7 +20,7 @@ class JobController extends Controller
     public function store(StoreJobRequest $request)
     {
         $this->jobRepository->create($request->validated());
-        return HttpResponse::respondWithSuccess([], "created successfully");
+        return HttpResponse::respondWithSuccess([], "Tạo thành công");
     }
 
     /**
@@ -29,7 +29,7 @@ class JobController extends Controller
     public function update(Request $request, string $id)
     {
         $this->jobRepository->update($id, $request->all());
-        return HttpResponse::respondWithSuccess([], "updated successfully");
+        return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
     }
 
     /**
@@ -39,7 +39,7 @@ class JobController extends Controller
     {
         $status = $this->jobRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
     }
 }

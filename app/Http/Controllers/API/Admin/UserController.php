@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         try {
             $this->userRepository->create($request->validated());
-            return HttpResponse::respondWithSuccess([], "created successfully");
+            return HttpResponse::respondWithSuccess([], "Tạo thành công");
             return response()->json(["message" => 'SUCCESS']);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
@@ -57,7 +57,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $this->userRepository->update($id, $request->all());
-        return HttpResponse::respondWithSuccess([], "updated successfully");
+        return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
     }
 
     /**
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         $status = $this->userRepository->delete($id);
         if ($status) {
-            return HttpResponse::respondWithSuccess([], "deleted successfully");
+            return HttpResponse::respondWithSuccess([], "Xóa thành công");
         }
     }
 }

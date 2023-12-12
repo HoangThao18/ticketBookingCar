@@ -28,6 +28,6 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request)
     {
         $this->commentRepository->create(array_merge($request->validated(), ['user_id' => Auth::id()]));
-        return HttpResponse::respondWithSuccess([], "creared successfully");
+        return HttpResponse::respondWithSuccess([], "Thành công");
     }
 }
