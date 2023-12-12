@@ -120,16 +120,20 @@ class GetListBank extends Command
         } catch (RequestException $e) {
             // Xử lý lỗi
             $response = $e->getResponse();
-
-            $this->error($e);
-
+            
+            // $this->error($e);
+            
             if ($response) {
                 $statusCode = $response->getStatusCode();
-                $errorBody = $response->getBody()->getContents();
-                $this->error($errorBody);
-                // $this->info(config('services.momo.token'));
+                if($statusCode === 401){
+                    $this->call('bank:get-token');
+                } else {
+                    $reasonPhrase = $response->getReasonPhrase();
+                    $this->error("HTTP status code {$statusCode}: {$reasonPhrase}");
+                }
+                // $errorBody = $response->getBody()->getContents();
+                // $this->error($errorBody);
             }
-            // $this->refreshTokenMomo();
         }
     }
 }
