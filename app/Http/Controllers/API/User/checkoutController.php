@@ -285,7 +285,7 @@ class checkoutController extends Controller
                 'bill' => [
                     'code' => $bill->code,
                     "total" => $request->vnp_Amount / 100,
-                    "message" => "thanh toán hóa đơn qua bank",
+                    "message" => "Thanh toán hóa đơn qua Bank",
                     "tickets" => DetailTicketResource::collection($tickets)
                 ]
             ];
