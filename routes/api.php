@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\API\User\UserController;
+use App\Http\Controllers\API\User\MailController;
 use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -66,3 +67,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post("comment", [CommentController::class, 'store']);
     });
 });
+
+Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
