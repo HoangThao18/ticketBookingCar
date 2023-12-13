@@ -260,7 +260,7 @@ class checkoutController extends Controller
             // $total = 10000;
 
             $momo = [
-                "qr" => "<img src=" . "'https://api.vietqr.io/image/963388-0377457747-Tcntxkf.jpg?accountName=BUI%20HUU%20HAU&amount=$total&addInfo=$codeBill'" . "/>",
+                "qr" => "<img src=" . "'https://api.vietqr.io/image/963388-0377457747-J1SFeJT.jpg?accountName=BUI%20HUU%20HAU&amount=$total&addInfo=$codeBill'" . "/>",
                 "chu_tai_khoan" => "Bui Huu Hau",
                 "so_tai_khoan" => "0377457747",
                 "ngan_hang" => "Timo",
