@@ -279,8 +279,17 @@ class checkoutController extends Controller
     {
         $codeBill = $request->code_bill;
         $bill = $this->billRepository->findByCode($codeBill);
+        $tickets = $this->ticketRepository->getByBill($bill->id);
         if ($bill->status == 'đã thanh toán') {
-            return HttpResponse::respondWithSuccess($bill, "Thanh toán thành công");
+            $responseData = [
+                'bill' => [
+                    'code' => $bill->code,
+                    "total" => $request->vnp_Amount / 100,
+                    "message" => "thanh toán hóa đơn qua bank",
+                    "tickets" => DetailTicketResource::collection($tickets)
+                ]
+            ];
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }
