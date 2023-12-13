@@ -19,6 +19,7 @@ class AdminCarResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'license_plate' => $this->license_plate,
             'type' => $this->type,

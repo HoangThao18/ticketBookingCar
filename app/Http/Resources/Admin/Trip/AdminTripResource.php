@@ -17,6 +17,7 @@ class AdminTripResource extends JsonResource
     {
         return
             [
+                'id' => $this->id,
                 'start_station' => $this->start,
                 'end_station' => $this->end,
                 "departure_time" => $this->departure_time,

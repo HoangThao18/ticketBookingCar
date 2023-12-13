@@ -53,6 +53,8 @@ Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
+Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
@@ -64,6 +66,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put("", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
         Route::post("comment", [CommentController::class, 'store']);
-        Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
     });
 });

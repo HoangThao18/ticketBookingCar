@@ -14,7 +14,9 @@ class AdminTicketResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
+            'id' => $this->id,
             "code" => $this->code,
             "price" => $this->price,
             "status" => $this->status,
@@ -22,6 +24,7 @@ class AdminTicketResource extends JsonResource
                 "name" => $this->user->name,
                 "phone_number" => $this->user->phone_number,
             ],
+            'car' => ['name' => $this->trip->car->name],
             "start_station" => $this->trip->start,
             "end_station" => $this->trip->end,
             "seat" => [
