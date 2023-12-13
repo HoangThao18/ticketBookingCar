@@ -64,6 +64,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put("", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
         Route::post("comment", [CommentController::class, 'store']);
-        Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
     });
 });
