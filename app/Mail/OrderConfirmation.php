@@ -17,6 +17,6 @@ class OrderConfirmation extends Mailable
     {
         return $this->view('emails.order_confirmation')
                     ->with(['orderData' => $this->orderData])
-                    ->subject('Xác nhận đơn hàng của bạn');
+                    ->subject('TicketPro - Xác nhận đơn hàng của bạn');
     }
 }
