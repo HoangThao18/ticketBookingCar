@@ -54,7 +54,6 @@ Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
-Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
