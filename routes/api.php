@@ -53,19 +53,18 @@ Route::get("car/{id}/comments", [CommentController::class, 'show']);
 Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
+Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
+Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
-        Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
-        Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
         Route::get('profile', [LoginController::class, 'getUser']);
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
         Route::put("", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
         Route::post("comment", [CommentController::class, 'store']);
-        Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
     });
 });
 

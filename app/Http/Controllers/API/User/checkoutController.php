@@ -41,11 +41,11 @@ class checkoutController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function create_bill($user, $codeBill)
+    public function create_bill($user, $codeBill, $payment_method = "Thanh toán qua thẻ")
     {
         $bill =  $this->billRepository->create([
             "user_id" => $user->id,
-            'payment_method' => "thanh toán online",
+            'payment_method' => $payment_method,
             'status' => "pending",
             "code" => $codeBill
         ]);
@@ -76,6 +76,7 @@ class checkoutController extends Controller
                     'name' => $request->name,
                     'email' => $request->email,
                     'phone_number' => $request->phone_number,
+                    'role' => "guest"
                 ]);
                 $bill = $this->create_bill($user, $codeBill);
             }
@@ -222,20 +223,43 @@ class checkoutController extends Controller
             $ticketsCreate = [];
             // return response()->json(['message' => $request->all()]);
             $arrayUniqueSeatId =  array_unique($request->seat_id);
+            $user = $this->userRepository->getByEmail($request->email);
 
-            foreach ($arrayUniqueSeatId as $seatId) {
-                $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
-                if ($isValid !== null && $isValid->status !== 'cancelled') {
-                    return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+
+            if ($user) {
+                foreach ($arrayUniqueSeatId as $seatId) {
+                    $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
+                    if ($isValid !== null && $isValid->status !== 'cancelled') {
+                        return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+                    }
+                }
+                $bill = $this->create_bill($user, $codeBill, "Chuyển khoản ngân hàng");
+            } else {
+                $user = $this->userRepository->getByPhone($request->phone_number);
+                if ($user) {
+                    foreach ($arrayUniqueSeatId as $seatId) {
+                        $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
+                        if ($isValid !== null && $isValid->status !== 'cancelled') {
+                            return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+                        }
+                    }
+                    $bill = $this->create_bill($user, $codeBill, "Chuyển khoản ngân hàng");
+                } else {
+                    foreach ($arrayUniqueSeatId as $seatId) {
+                        $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
+                        if ($isValid !== null && $isValid->status !== 'cancelled') {
+                            return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+                        }
+                    }
+                    $user = $this->userRepository->create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'phone_number' => $request->phone_number,
+                        'role' => "guest"
+                    ]);
+                    $bill = $this->create_bill($user, $codeBill, "Chuyển khoản ngân hàng");
                 }
             }
-
-            $bill = $this->billRepository->create([
-                "user_id" => Auth::id(),
-                'payment_method' => "Chuyển khoản ngân hàng",
-                'status' => "pending",
-                "code" => $codeBill
-            ]);
 
             foreach ($arrayUniqueSeatId as $seatId) {
                 $seat = $seats->find($seatId);
@@ -244,7 +268,7 @@ class checkoutController extends Controller
                     [
                         "trip_id" => $trip->id,
                         "seat_id" => $seatId,
-                        "user_id" => Auth::id(),
+                        "user_id" => $user->id,
                         "code" =>  Str::random(10),
                         "price" => $seat->price,
                         "bill_id" => $bill->id,
