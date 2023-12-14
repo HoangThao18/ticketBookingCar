@@ -84,7 +84,7 @@ class GetListBank extends Command
                     }
                 }
             }
-            $this->info(count($listBank));
+            $this->info(count($listBank) ." Trans");
             // Đổi giá trị biến trong file config/listmomo.php
             // Đường dẫn đến file services.php
             // Lấy đường dẫn của file cấu hình listmomo.php

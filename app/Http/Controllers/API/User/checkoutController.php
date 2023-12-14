@@ -260,7 +260,7 @@ class checkoutController extends Controller
             // $total = 10000;
 
             $momo = [
-                "qr" => "<img src=" . "'https://api.vietqr.io/image/963388-0377457747-Tcntxkf.jpg?accountName=BUI%20HUU%20HAU&amount=$total&addInfo=$codeBill'" . "/>",
+                "qr" => "<img src=" . "'https://api.vietqr.io/image/963388-0377457747-J1SFeJT.jpg?accountName=BUI%20HUU%20HAU&amount=$total&addInfo=$codeBill'" . "/>",
                 "chu_tai_khoan" => "Bui Huu Hau",
                 "so_tai_khoan" => "0377457747",
                 "ngan_hang" => "Timo",
@@ -279,8 +279,17 @@ class checkoutController extends Controller
     {
         $codeBill = $request->code_bill;
         $bill = $this->billRepository->findByCode($codeBill);
+        $tickets = $this->ticketRepository->getByBill($bill->id);
         if ($bill->status == 'đã thanh toán') {
-            return HttpResponse::respondWithSuccess($bill, "Thanh toán thành công");
+            $responseData = [
+                'bill' => [
+                    'code' => $bill->code,
+                    "total" => $request->vnp_Amount / 100,
+                    "message" => "Thanh toán hóa đơn qua Bank",
+                    "tickets" => DetailTicketResource::collection($tickets)
+                ]
+            ];
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }

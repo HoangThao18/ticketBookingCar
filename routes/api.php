@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\API\User\UserController;
+use App\Http\Controllers\API\User\MailController;
 use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,12 +60,12 @@ Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
-        Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
         Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
         Route::get('profile', [LoginController::class, 'getUser']);
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
         Route::put("", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
         Route::post("comment", [CommentController::class, 'store']);
+        Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
     });
 });
