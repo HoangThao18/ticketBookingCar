@@ -81,6 +81,6 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
 
   public function findTripByDriver($driver_id)
   {
-    return $this->model->where('driver_id', '=', $driver_id)->get();
+    return $this->model->where('driver_id', '=', $driver_id)->orderBy("departure_time", "DESC")->get();
   }
 }
