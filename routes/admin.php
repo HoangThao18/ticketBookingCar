@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Admin\UserController;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Route;
 
+
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/car', CarController::class)->except(['update']);
   Route::post("/car/{id}/update", [CarController::class, "update"]);
@@ -49,7 +50,6 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/job', JobController::class)->only(['store', 'destroy', 'update']);;
 
   Route::get("/statistics", [StatisticController::class, "index"]);
-
 
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/driver', DriverController::class);

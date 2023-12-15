@@ -82,6 +82,12 @@ class TripController extends Controller
         return HttpResponse::respondWithSuccess([], "Cập nhật thành công");
     }
 
+    public function getByDriver($driverId)
+    {
+        $trips = $this->tripRepository($driverId);
+        return HttpResponse::respondWithSuccess(AdminTripResource::collection($trips));
+    }
+
     /**
      * Remove the specified resource from storage.
      */
