@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('cancel-booking', [checkoutController::class, 'cancelBooking']);
         Route::put("", [UserController::class, 'update']);
         Route::put("change-password", [UserController::class, 'changePassword']);
+        Route::post("update", [UserController::class, 'update']);
         Route::post("comment", [CommentController::class, 'store']);
         Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
     });
