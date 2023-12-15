@@ -43,20 +43,24 @@ Route::get("/trip/popular", [TripController::class, 'getPopularTrips']);
 Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
 Route::get("/station", [StationController::class, 'index']);
+Route::get("/station/province", [StationController::class, 'getProvince']);
 Route::get("/news", [NewsController::class, 'index']);
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
 Route::get("/job", [JobController::class, 'index']);
+Route::get("/job/{id}", [JobController::class, 'show']);
 
-Route::get("car/{id}/comments", [CommentController::class, 'show']);
-Route::get("/ticket/{code}", [TicketController::class, 'searchByCode']);
+
+Route::get("car/{id}/comment", [CommentController::class, 'show']);
+Route::get("/ticket/search", [TicketController::class, 'search']);
 Route::get("/vnpay-return", [checkoutController::class, 'vnpayReturn']);
 Route::post("/vnpay-payment", [checkoutController::class, 'vnpayPayment']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get("ticket/history", [TicketController::class, 'getHistory']);
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
