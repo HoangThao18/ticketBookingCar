@@ -79,8 +79,9 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
     return false;
   }
 
-  public function getByDriver($driverId)
+
+  public function findTripByDriver($driver_id)
   {
-    return $this->model->where('driver_id', $driverId)->orderBy('created_at', 'desc')->get();
+    return $this->model->where('driver_id', '=', $driver_id)->orderBy("departure_time", "DESC")->get();
   }
 }

@@ -22,5 +22,5 @@ interface TripRepositoryInterface extends BaseRepositoryInterface
 
   public function checkCanCancelTicket($id, $date);
 
-  public function getByDriver($driverId);
+  public function findTripByDriver($driver_id);
 }

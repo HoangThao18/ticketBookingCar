@@ -125,4 +125,9 @@ class TripController extends Controller
         }
         return HttpResponse::respondWithSuccess("cập nhật trạng thái thành công");
     }
+
+    public function findByDriver($id){
+        $trips = $this->tripRepository->findTripByDriver($id);
+        return HttpResponse::respondWithSuccess(AdminTripResource::collection($trips));
+    }
 }

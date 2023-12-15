@@ -51,6 +51,7 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model->where('bill_id', $id)->get();
   }
+
   public function CountSoldTickets($trip_id)
   {
 
