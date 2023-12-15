@@ -53,13 +53,13 @@ class MailController extends Controller
             $total_price += $ticket->seat->price;
         }
         // Gửi email xác nhận
-        $userEmail = Auth::user()->email; // Thay bằng địa chỉ email của người dùng đặt hàng
+        $userEmail = $tickets[0]->user->email; // Thay bằng địa chỉ email của người dùng đặt hàng
         // $orderData = []; // Thay bằng dữ liệu đơn hàng
         $orderData = [
             "code_bill" => $bill->code,
             "code_tickets" => $code_tickets,
-            "name" => Auth::user()->name,
-            "phone" => Auth::user()->phone_number,
+            "name" => $tickets[0]->user->name,
+            "phone" => $tickets[0]->user->phone_number,
             "trip" => $trip,
             "quantity" => $tickets->count(),
             "seats" => $seat_tickets,

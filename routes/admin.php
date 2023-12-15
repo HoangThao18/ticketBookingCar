@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Admin\UserController;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Route;
 
+
 Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/car', CarController::class)->except(['update']);
   Route::post("/car/{id}/update", [CarController::class, "update"]);
@@ -35,7 +36,6 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
   Route::apiResource('/news', NewsController::class)->only(['store', 'destroy']);
   Route::post("/news/update/{id}", [NewsController::class, "update"]);
 
-  Route::post("/trip/change-status", [TripController::class, "changeStatus"]);
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
 
   Route::apiResource('/station', StationController::class)->except(['index']);
@@ -50,7 +50,10 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
 
   Route::get("/statistics", [StatisticController::class, "index"]);
 
-
   Route::apiResource('/user', UserController::class);
   Route::apiResource('/driver', DriverController::class);
+});
+Route::middleware(['auth:sanctum', 'checkDriverOrAdmin'])->group(function () {
+  Route::get("/driver/{id}/trip", [TripController::class, 'findByDriver']);
+  Route::post("/trip/change-status", [TripController::class, "changeStatus"]);
 });

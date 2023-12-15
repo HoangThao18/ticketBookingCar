@@ -35,4 +35,12 @@ class StoreTripRequest extends FormRequest
             "dropoff" => "nullable|array",
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'arrival_time.after' => 'Thời gian đến phải sau thời gian khởi hành',
+            'departure_time.after' => 'Thời gian khởi hành không hợp lệ',
+        ];
+    }
 }

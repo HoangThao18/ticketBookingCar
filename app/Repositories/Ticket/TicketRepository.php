@@ -43,8 +43,7 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model->select('seat_id', 'status')
       ->where('trip_id', $id)
-      ->where('status', 'booked')
-      ->orwhere('status', "pending")
+      ->whereIn('status', ['booked', "pending"])
       ->get();
   }
 
@@ -52,6 +51,7 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
   {
     return $this->model->where('bill_id', $id)->get();
   }
+
   public function CountSoldTickets($trip_id)
   {
 
