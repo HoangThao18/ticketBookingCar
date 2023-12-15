@@ -61,16 +61,15 @@
                 <div class="row mt-2" style="display: flex;margin-top: 1em;">
                     <div class="col text-start" style="font-weight: 700;text-align: left; width: 40%;">Ngày khởi hành
                     </div>
-                    <div class="col text-end" style="text-align: right; width: 60%;">{{ $orderData['trip']["departure_time"] }}</div>
+                    <div class="col text-end" style="text-align: right; width: 60%;">{{ $orderData['departure_day'] }}</div>
                 </div>
                 <div class="row mt-2" style="display: flex;margin-top: 1em;">
                     <div class="col text-start" style="font-weight: 700;text-align: left; width: 40%;">Giờ khởi hành</div>
-                    <div class="col text-end" style="text-align: right; width: 60%;"> 00:00</div>
+                    <div class="col text-end" style="text-align: right; width: 60%;">{{ $orderData['departure_time'] }}</div>
                 </div>
                 <div class="row mt-2" style="display: flex;margin-top: 1em;">
                     <div class="col text-start" style="font-weight: 700;text-align: left; width: 40%;">Điểm đón</div>
-                    <div class="col text-end"style="text-align: right; width: 60%;">Cổng chính (Quốc Lộ 22, Ấp Đông Lân,
-                        Bà Điểm, Hóc Môn, TP Hồ Chí Minh)</div>
+                    <div class="col text-end"style="text-align: right; width: 60%;">{{ $orderData['pickup_location'] }}</div>
                 </div>
 
                 <div class="row mt-2" style="display: flex;margin-top: 1em;">

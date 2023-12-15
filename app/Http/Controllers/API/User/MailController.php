@@ -13,7 +13,7 @@ use App\Repositories\Ticket\TicketRepositoryInterface;
 use App\Repositories\Trip\TripRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Mail\OrderConfirmation;
-use Illuminate\Support\Facades\Auth;
+use Nette\Utils\DateTime;
 
 class MailController extends Controller
 {
@@ -54,8 +54,14 @@ class MailController extends Controller
         }
         // Gửi email xác nhận
         $userEmail = $tickets[0]->user->email; // Thay bằng địa chỉ email của người dùng đặt hàng
-        // $orderData = []; // Thay bằng dữ liệu đơn hàng
+        $dateTime = new DateTime($trip->departure_time);
+        // Lấy ngày
+        $departure_day = $dateTime->format('Y-m-d');
+
+        // Lấy giờ
+        $departure_time = $dateTime->format('H:i:s');
         $orderData = [
+            "mail" => $userEmail,
             "code_bill" => $bill->code,
             "code_tickets" => $code_tickets,
             "name" => $tickets[0]->user->name,
@@ -63,6 +69,8 @@ class MailController extends Controller
             "trip" => $trip,
             "quantity" => $tickets->count(),
             "seats" => $seat_tickets,
+            "departure_day" => $departure_day,
+            "departure_time" => $departure_time,
             "pickup_location" => $tickets[0]->pickup_location,
             "payment_method" => $bill->payment_method,
             "total_price" => $total_price,
