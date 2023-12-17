@@ -38,7 +38,6 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
 
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
   Route::get('/statistical/trip', [TripController::class, "statisticalTrip"]);
-  Route::post('/statisticalTripDetail/trip', [TripController::class, "statisticalTripDetail"]);
 
   Route::apiResource('/station', StationController::class)->except(['index']);
   Route::get("/station/{id}/point", [PointController::class, "getByStation"]);
@@ -58,4 +57,5 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
 Route::middleware(['auth:sanctum', 'checkDriverOrAdmin'])->group(function () {
   Route::get("/driver/{id}/trip", [TripController::class, 'findByDriver']);
   Route::post("/trip/change-status", [TripController::class, "changeStatus"]);
+  Route::post('/statisticalTripDetail/trip', [TripController::class, "statisticalTripDetail"]);
 });
