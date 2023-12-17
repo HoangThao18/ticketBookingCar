@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum', 'checkAdmin'])->group(function () {
 
   Route::apiResource('/trip', TripController::class)->only(['store', 'destroy', 'update', 'index']);
   Route::get('/statistical/trip', [TripController::class, "statisticalTrip"]);
+  Route::post('/statisticalTripDetail/trip', [TripController::class, "statisticalTripDetail"]);
 
   Route::apiResource('/station', StationController::class)->except(['index']);
   Route::get("/station/{id}/point", [PointController::class, "getByStation"]);

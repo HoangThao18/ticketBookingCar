@@ -10,6 +10,8 @@ use App\Models\Trip;
 use App\Repositories\Seats\SeatsRepositoryInterface;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketRepositoryInterface;
+use App\Repositories\Bill\BillRepository;
+use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\TimePoints\TimePointsRepository;
 use App\Repositories\Trip\TripRepositoryInterface;
 use Illuminate\Http\Request;
@@ -17,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreStationRequest;
+use App\Http\Resources\Admin\ticket\AdminDetailTicketResource;
 use App\Repositories\Station\StationRepositoryInterface;
 
 class TripController extends Controller
@@ -24,15 +27,21 @@ class TripController extends Controller
     private $tripRepository;
     private $timePointsRepository;
     private $stationRepository;
+    private $billRepository;
+    private $ticketRepository;
 
     public function __construct(
         TripRepositoryInterface $tripRepository,
         TimePointsRepository $timePointsRepository,
-        StationRepositoryInterface $stationRepository
+        StationRepositoryInterface $stationRepository,
+        BillRepositoryInterface $billRepository,
+        TicketRepositoryInterface $ticketRepository
     ) {
         $this->tripRepository = $tripRepository;
         $this->timePointsRepository = $timePointsRepository;
         $this->stationRepository = $stationRepository;
+        $this->billRepository = $billRepository;
+        $this->ticketRepository = $ticketRepository;
     }
     /**
      * Display a listing of the resource.
@@ -165,5 +174,33 @@ class TripController extends Controller
         arsort($provinces);
         $result = array_slice($provinces, 0, 5);
         return HttpResponse::respondWithSuccess($result, "5 Tỉnh có nhiều chuyến xe nhất");
+    }
+
+    public function statisticalTripDetail(Request $request)
+    {
+        $trips = $this->tripRepository;
+        $trips = $trips->getByStatus($request->status,$request->day);
+        $statisticalTripDetail = [];
+        foreach ($trips as $trip) {
+            $statisticalTripDetail[] = new AdminTripResource($trip);
+        }
+        foreach ($statisticalTripDetail as $key => $value) {
+            $totalMoney = 0;
+            $totalSeat = $value->car->number_seat;
+            $ticket = $this->ticketRepository->getByTrip($value->id);
+            $totalSeatSold = count($ticket);
+            $tickets["trip_id"][$value->id] = $ticket;
+            foreach ($ticket as $item) {
+                $totalMoney += $item->price;
+            }
+            $statisticalTripDetail[$key] = [
+                "trip" => $value,
+                "total_seat" => $totalSeat,
+                "total_seat_sold" => $totalSeatSold,
+                "total_money" => $totalMoney,
+            ];
+        }
+        // return HttpResponse::respondWithSuccess(new AdminDetailTicketResource($ticket));
+        return HttpResponse::respondWithSuccess($statisticalTripDetail, "");
     }
 }

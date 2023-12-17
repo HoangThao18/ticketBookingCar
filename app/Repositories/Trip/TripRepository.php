@@ -2,8 +2,10 @@
 
 namespace App\Repositories\Trip;
 
+use App\Http\Resources\Trip\TripResource;
 use App\Repositories\BaseRepository;
 use App\Repositories\Route\RouteRepository;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class TripRepository extends BaseRepository implements TripRepositoryInterface
@@ -83,5 +85,27 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
   public function findTripByDriver($driver_id)
   {
     return $this->model->where('driver_id', '=', $driver_id)->orderBy("departure_time", "DESC")->get();
+  }
+
+  public function getByStatus($status = null, $time = null)
+  {
+    $query = $this->model->select('*');
+    // Filter by status
+    if (!is_null($status)) {
+      $query->whereIn('status', (array)$status);
+    }
+    if (!is_null($time)) {
+      // $fromTime
+      // $toTime
+      // Filter by time
+      $dates = explode("/", $time);
+      $year = $dates[0];
+      $month = $dates[1];
+      $day = $dates[2];
+      $fromTime = date("Y-m-d H:i:s", strtotime("$year-$month-$day 0:00"));
+      $toTime = date("Y-m-d H:i:s", strtotime("$year-$month-" . ($day + 1) . " 23:59:59"));
+      $query->whereBetween('arrival_time', [$fromTime, $toTime]);
+    }
+    return $query->get();
   }
 }

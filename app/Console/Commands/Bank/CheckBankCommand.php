@@ -66,7 +66,9 @@ class CheckBank extends Command
                         $total += $ticket['price'];
                     }
                     if ($codebill['txnAmount'] == $total) {
-                        $this->ticketRepository->updateStatus($ticketIds, "booked");
+                        foreach ($ticketIds as $key => $ticketId) {
+                            $this->ticketRepository->updateStatus($ticketId, "booked");
+                        }
                         $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
                         $this->info('Update pending bill successfully');
                     }

@@ -24,7 +24,7 @@ class BillRepository extends BaseRepository implements BillRepositoryInterface
   }
 
   // findByStatus
-  public function findByStatus($status = null, $time = null)
+  public function findByStatus($status = null, $time = null, $id = null)
   {
     if ($status == 'waiting') {
       $query = $this->model->whereIn('status', ['pending', 'processing']);
@@ -38,6 +38,11 @@ class BillRepository extends BaseRepository implements BillRepositoryInterface
       $timeThreshold = now()->subMinutes($time)->toDateTimeString();
       // Thêm điều kiện cho thời gian
       $query->where('created_at', '<', $timeThreshold);
+    }
+
+    if (isset($id)) {
+      // Thêm điều kiện cho id
+      $query->where('id', $id);
     }
 
     return $query->get();

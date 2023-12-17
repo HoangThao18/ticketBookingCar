@@ -41,9 +41,9 @@ class TicketRepository extends BaseRepository implements TicketRepositoryInterfa
 
   public function getByTrip($id)
   {
-    return $this->model->select('seat_id', 'status')
+    return $this->model->select('seat_id', 'status','price')
       ->where('trip_id', $id)
-      ->whereIn('status', ['booked', "pending"])
+      ->where('status', 'booked')
       ->get();
   }
 
