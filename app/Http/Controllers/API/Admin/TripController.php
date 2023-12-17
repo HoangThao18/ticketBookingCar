@@ -16,18 +16,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreStationRequest;
+use App\Repositories\Station\StationRepositoryInterface;
 
 class TripController extends Controller
 {
     private $tripRepository;
     private $timePointsRepository;
+    private $stationRepository;
 
     public function __construct(
         TripRepositoryInterface $tripRepository,
-        TimePointsRepository $timePointsRepository
+        TimePointsRepository $timePointsRepository,
+        StationRepositoryInterface $stationRepository
     ) {
         $this->tripRepository = $tripRepository;
         $this->timePointsRepository = $timePointsRepository;
+        $this->stationRepository = $stationRepository;
     }
     /**
      * Display a listing of the resource.
@@ -134,6 +139,31 @@ class TripController extends Controller
 
     public function statisticalTrip()
     {
-        return HttpResponse::respondWithSuccess([], "Xóa thành công");
+        $trips = $this->tripRepository->getTrips();
+        $trips = AdminTripResource::collection($trips);
+        $station = $this->stationRepository;
+        $stations = $station->getAll();
+        $provinces = [];
+        foreach ($stations as $value) {
+            if (!in_array($value->province, $provinces)) {
+                $stationID = $station->getByProvince($value->province);
+                $provinces[$value->province] = $stationID;
+            }
+        }
+        foreach ($provinces as $key => $province) {
+            $count = 0;
+            foreach ($province as $id) {
+                foreach ($trips as $trip) {
+                    if ($trip->start_station == $id) {
+                        $count++;
+                    }
+                }
+            }
+            $provinces[$key] = $count;
+            // $result[$province] = $count;
+        }
+        arsort($provinces);
+        $result = array_slice($provinces, 0, 5);
+        return HttpResponse::respondWithSuccess($result, "5 Tỉnh có nhiều chuyến xe nhất");
     }
 }

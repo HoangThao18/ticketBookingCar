@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
-use App\Http\Requests\cancelBooking;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
 use App\Http\Resources\Ticket\DetailTicketResource;
