@@ -223,7 +223,7 @@ class checkoutController extends Controller
             if ($user) {
                 foreach ($arrayUniqueSeatId as $seatId) {
                     $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'waiting');
-                    if ($isValid !== null && $isValid->status !== 'cancelled') {
+                    if ($isValid !== null && $isValid->status !== 'cancelled' && $isValid->status == 'đã thanh toán') {
                         return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
                     }
                 }
