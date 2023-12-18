@@ -76,8 +76,11 @@ class MailController extends Controller
             "total_price" => $total_price,
         ]; // Thay bằng dữ liệu đơn hàng
 
-        Mail::to($userEmail)->send(new OrderConfirmation($orderData));
-
-        return HttpResponse::respondWithSuccess(($orderData), "Gửi mail xác nhận đơn hàng thành công");
+        if($bill->status == "đã thanh toán"){
+            Mail::to($userEmail)->send(new OrderConfirmation($orderData));
+    
+            return HttpResponse::respondWithSuccess(($orderData), "Gửi mail xác nhận đơn hàng thành công");
+        }
+        return HttpResponse::respondError("Đơn hàng chưa thanh toán, Gửi mail thất bại");
     }
 }
