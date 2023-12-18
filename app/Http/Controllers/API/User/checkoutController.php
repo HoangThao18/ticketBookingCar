@@ -307,7 +307,8 @@ class checkoutController extends Controller
                     "tickets" => DetailTicketResource::collection($tickets)
                 ]
             ];
-            return HttpResponse::respondWithSuccess($responseData, "Thanh toán thành công");
+            SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán và gửi Mail thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }
