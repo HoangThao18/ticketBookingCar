@@ -113,7 +113,7 @@ class checkoutController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
+        $vnp_Returnurl = "https://deece.vn/dathanhtoan";
         $vnp_TmnCode = "86HQZ6IJ"; //Mã website tại VNPAY 
         $vnp_HashSecret = "VXFDSCHEORUPTSTIHSKFDTVMTSSYGHDC"; //Chuỗi bí mật
 
@@ -226,6 +226,10 @@ class checkoutController extends Controller
                     if ($isValid !== null && $isValid->status !== 'cancelled') {
                         return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
                     }
+                    $isValid = $this->ticketRepository->searchByTripAndSeat($request->trip_id, $seatId, 'đã thanh toán');
+                    if ($isValid !== null && $isValid->status !== 'cancelled') {
+                        return HttpResponse::respondNotFound("Seat id " . $seatId . " on trip id " . $request->trip_id . " is invalid");
+                    }
                 }
                 $bill = $this->create_bill($user, $codeBill, "Chuyển khoản ngân hàng");
             } else {
@@ -307,7 +311,8 @@ class checkoutController extends Controller
                     "tickets" => DetailTicketResource::collection($tickets)
                 ]
             ];
-            return HttpResponse::respondWithSuccess($responseData, "Thanh toán thành công");
+            SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán và gửi Mail thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }

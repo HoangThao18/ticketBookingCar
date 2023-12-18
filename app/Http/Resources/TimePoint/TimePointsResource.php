@@ -16,6 +16,7 @@ class TimePointsResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'point_id' => $this->point_id,
             'name' => $this->point->name,
             'address' => $this->point->address,
             'time' => $this->time,
