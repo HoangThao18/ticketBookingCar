@@ -19,6 +19,7 @@ class TripResource extends JsonResource
     {
 
         $data = [
+            'id' => $this->id,
             'start_station' => $this->start,
             'end_station' => $this->end,
             "departure_time" => $this->departure_time,
