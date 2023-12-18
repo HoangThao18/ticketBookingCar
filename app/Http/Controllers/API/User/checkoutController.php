@@ -113,7 +113,7 @@ class checkoutController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://deece.vn/dathanhtoan";
+        $vnp_Returnurl = "https://ticket.deece.vn/api/vnpay-return";
         $vnp_TmnCode = "86HQZ6IJ"; //Mã website tại VNPAY 
         $vnp_HashSecret = "VXFDSCHEORUPTSTIHSKFDTVMTSSYGHDC"; //Chuỗi bí mật
 
