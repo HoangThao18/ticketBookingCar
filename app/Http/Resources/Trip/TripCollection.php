@@ -15,6 +15,7 @@ class TripCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'trips' => $this->collection,
             'links' => [
                 'first' => $this->url(1),

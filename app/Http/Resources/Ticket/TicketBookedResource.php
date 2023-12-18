@@ -19,6 +19,7 @@ class TicketBookedResource extends JsonResource
 
 
         return [
+            'id' => $this->id,
             'user' => [
                 "name" => $this->user->name,
                 "email" => $this->user->email,
