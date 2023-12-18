@@ -45,7 +45,6 @@ Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 Route::get("/station", [StationController::class, 'index']);
 Route::get("/station/province", [StationController::class, 'getProvince']);
 Route::get("/news", [NewsController::class, 'index']);
-
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);

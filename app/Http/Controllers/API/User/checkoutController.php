@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Http\Controllers\API\User\SendMail as UserSendMail;
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Http\Library\SendMailUser;
 use App\Http\Requests\cancelBookingRequest;
 use App\Http\Requests\checkoutRequest;
 use App\Http\Resources\Ticket\DetailTicketResource;
+use App\Mail\OrderConfirmation;
 use App\Notifications\BillPaid;
 use App\Repositories\Bill\BillRepositoryInterface;
 use App\Repositories\Seats\SeatsRepositoryInterface;
@@ -177,17 +180,9 @@ class checkoutController extends Controller
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
-            $bill->user->notify(new BillPaid($request->vnp_Amount / 100, $bill->code));
-            $responseData = [
-                'bill' => [
-                    'code' => $bill->code,
-                    "total" => $request->vnp_Amount / 100,
-                    "message" => "thanh toán hóa đơn",
-                    "tickets" => DetailTicketResource::collection($tickets)
-                ]
-            ];
 
-            return HttpResponse::respondWithSuccess($responseData, "Giao dịch được thực hiện thành công");
+            $result = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return $result;
         } else {
             $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
             $this->billRepository->update($bill->id, ['status' => "thanh toán thất bại"]);
