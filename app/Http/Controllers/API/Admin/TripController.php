@@ -180,6 +180,9 @@ class TripController extends Controller
     {
         $trips = $this->tripRepository;
         $trips = $trips->getByStatus($request->status,$request->day);
+        if($trips == null){
+            return HttpResponse::respondError("Không có chuyến xe nào tồn tại");
+        }
         $statisticalTripDetail = [];
         foreach ($trips as $trip) {
             $statisticalTripDetail[] = new AdminTripResource($trip);
