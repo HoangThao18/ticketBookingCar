@@ -30,6 +30,7 @@ class AdminDetailTicketResource extends JsonResource
             "seat" => [
                 'position' => $this->seat->position,
             ],
+            "departure_time" => $this->trip->departure_time,
             "price" => $this->price,
             "status" => $this->status,
             "created_at" => $this->created_at,

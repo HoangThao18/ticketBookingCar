@@ -17,6 +17,6 @@ class Comment extends Model
 
     public function car()
     {
-        return $this->belongsTo(car::class);
+        return $this->belongsTo(Car::class);
     }
 }
