@@ -15,6 +15,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\API\User\UserController;
 use App\Http\Controllers\API\User\MailController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Library\HttpResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,9 +61,17 @@ Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
 Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
 
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("ticket/history", [TicketController::class, 'getHistory']);
+    Route::post('/email/verify/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return HttpResponse::respondWithSuccess([], "đã gửi email xác thực");
+    })->middleware(['throttle:6,1'])->name('verification.send');
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::get('profile', [LoginController::class, 'getUser']);
