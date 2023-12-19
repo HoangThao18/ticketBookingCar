@@ -29,4 +29,10 @@ class StoreUserRequest extends FormRequest
             'phone_number' => "required|min:10|unique:users"
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'phone_number.unique' => 'Số điện thoại đã tồn tại',
+        ];
+    }
 }

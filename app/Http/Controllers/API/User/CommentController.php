@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\Comment\CommentResource;
-use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Models\Comment;
+use App\Repositories\Comments\CommentsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,13 +16,14 @@ class CommentController extends Controller
 {
     private $commentRepository;
 
-    public function __construct(CommentRepositoryInterface $commentRepository)
+    public function __construct(CommentsRepositoryInterface $commentRepository)
     {
         $this->commentRepository = $commentRepository;
     }
     public function show($id)
+
     {
-        $comments = $this->commentRepository->getCommentsByCarId($id);
+        $comments = Comment::where('car_id', $id)->get();
         return HttpResponse::respondWithSuccess(CommentResource::collection($comments));
     }
 

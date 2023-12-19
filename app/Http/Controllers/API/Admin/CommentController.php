@@ -7,7 +7,7 @@ use App\Http\Library\HttpResponse;
 use App\Http\Requests\AdminStoreComment;
 use App\Http\Resources\Admin\Car\AdminCarResource;
 use App\Http\Resources\Comment\AdminCommentResource;
-use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Comments\CommentsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +15,7 @@ class CommentController extends Controller
 {
     private $commentRepository;
 
-    public function __construct(CommentRepositoryInterface $commentRepository)
+    public function __construct(CommentsRepositoryInterface $commentRepository)
     {
         $this->commentRepository = $commentRepository;
     }

@@ -25,7 +25,7 @@ class SearchTripRequest extends FormRequest
             'start_location' => "required",
             'end_location' => "required",
             'date' => "required|date_format:Y-m-d|after:yesterday",
-            'amount' => "required",
+            'amount' => "required|numeric|gt:0",
         ];
     }
 }

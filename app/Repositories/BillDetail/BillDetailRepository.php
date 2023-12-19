@@ -9,7 +9,7 @@ class BillDetailRepository extends BaseRepository implements BillDetailRepositor
   //lấy model tương ứng
   public function getModel()
   {
-    return \App\Models\BillDetail::class;
+    return \App\Models\Bill::class;
   }
   public function getTicketIdsByBill($id)
   {

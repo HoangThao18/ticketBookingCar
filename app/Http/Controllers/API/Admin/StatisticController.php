@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Library\HttpResponse;
+use App\Models\Comment;
 use App\Repositories\Car\CarRepositoryInterface;
-use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Comments\CommentsRepositoryInterface;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -18,12 +19,12 @@ class StatisticController extends Controller
     private $carRepository;
     private $commentRepository;
 
-    public function __construct(TicketRepositoryInterface $ticketRepository, CommentRepositoryInterface $commentRepository, CarRepositoryInterface $carRepository, UserRepositoryInterface $userRepository)
+    public function __construct(TicketRepositoryInterface $ticketRepository, CommentsRepositoryInterface $commentsRepository, CarRepositoryInterface $carRepository, UserRepositoryInterface $userRepository)
     {
         $this->ticketRepository = $ticketRepository;
         $this->userRepository = $userRepository;
         $this->carRepository = $carRepository;
-        $this->commentRepository = $commentRepository;
+        $this->commentRepository = $commentsRepository;
     }
 
     public function index()
