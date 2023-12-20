@@ -61,9 +61,9 @@ Route::post("getbankqr", [checkoutController::class, 'getBankQR']);
 Route::get("/bank-return", [checkoutController::class, 'bankReturn']);
 Route::post("send-order-confirmation", [MailController::class, 'sendOrderConfirmation']);
 
-Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-    ->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
+// Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+//     ->middleware(['signed', 'throttle:6,1'])
+//     ->name('verification.verify');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("ticket/history", [TicketController::class, 'getHistory']);

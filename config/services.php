@@ -43,6 +43,6 @@ return [
     ],
 
     'bank' => [
-        'token' => 'eyJraWQiOiI0OTFmNjk4MS0wZjAxLTQ3MWUtYjZkMS1hYTRiZDQ4ZTkyOTYiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNXdpbW5hcGktRHRUVGNGeDUxSWdRIiwidWlkIjoiNjExOTEyMDItOTAxMy00MjNkLWE1NzAtZjk5ZWYxNjllNTk0In0.TrTZjdFPJGSyp8f45DL71h3Ke34YQDUA6-c51pYML-Y',
+        'token' => 'eyJraWQiOiI0NWJkYmUxMC1jNTBmLTQ0NWQtYjdhZi01OTVlY2FiNmVhYjAiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJNa01Ici1oNWRoRmxOOEQxZkN0bHJ3IiwidWlkIjoiOTBmNjVmNTgtYzNlMy00NDY5LThiNWEtM2I4MzFmZGQ4YmNkIn0.zrA8Hclfjc4ls8KsIn6u3LXMXDdWLhvrv9GrcaCM5kI',
     ],
 ];
