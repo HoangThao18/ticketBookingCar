@@ -312,7 +312,7 @@ class checkoutController extends Controller
             $responseData = [
                 'bill' => [
                     'code' => $bill->code,
-                    "total" => $request->vnp_Amount / 100,
+                    "total" => $request->vnp_Amount,
                     "message" => "thanh toán hóa đơn",
                     "tickets" => DetailTicketResource::collection($tickets)
                 ]
