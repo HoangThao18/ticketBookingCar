@@ -34,7 +34,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'https://ticketpro.deece.vn/api/login/google/callback',
+        'redirect' => 'https://ticketproweb-peach.vercel.app/auth/google',
     ],
 
     'momo' => [

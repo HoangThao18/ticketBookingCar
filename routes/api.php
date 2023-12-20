@@ -35,7 +35,7 @@ use function Laravel\Prompts\password;
 
 Route::post("/login", [LoginController::class, "login"]);
 Route::post("/forgot-password", [ResetPasswordController::class, "forgotPassword"])->name('password.reset');
-Route::get("/reset-password", [ResetPasswordController::class, "reset"]);
+Route::post("/reset-password", [ResetPasswordController::class, "reset"]);
 Route::post("/register", [RegisterController::class, "register"]);
 Route::get("/login/{provider}", [LoginController::class, "redirectToProvider"]);
 Route::get("/login/{provider}/callback", [LoginController::class, "handleProviderCallback"]);
@@ -46,7 +46,7 @@ Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
 Route::get("/station", [StationController::class, 'index']);
 Route::get("/station/province", [StationController::class, 'getProvince']);
-Route::get("/news", [NewsController::class, 'index'])->middleware('Cors');
+Route::get("/news", [NewsController::class, 'index']);
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);

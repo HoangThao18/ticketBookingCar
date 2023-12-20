@@ -65,7 +65,6 @@ class checkoutController extends Controller
         $ticketsCreate = [];
         $arrayUniqueSeatId =  array_unique($request->seat_id);
         $user = $this->userRepository->getByEmail($request->email);
-
         if ($user) {
             $bill = $this->create_bill($user, $codeBill);
         } else {
@@ -113,7 +112,7 @@ class checkoutController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://ticket.deece.vn/api/vnpay-return";
+        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay-return";
         $vnp_TmnCode = "86HQZ6IJ"; //Mã website tại VNPAY 
         $vnp_HashSecret = "VXFDSCHEORUPTSTIHSKFDTVMTSSYGHDC"; //Chuỗi bí mật
 
@@ -124,7 +123,7 @@ class checkoutController extends Controller
         $vnp_Locale = "VN";
         $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_ExpireDate = Carbon::now()->addMinutes(10)->format('YmdHis');
+        $vnp_ExpireDate = Carbon::now()->addMinutes(7)->format('YmdHis');
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -180,9 +179,8 @@ class checkoutController extends Controller
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
-
-            $result = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
-            return $result;
+            $responseData = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return HttpResponse::respondWithSuccess($responseData->original["data"], "Thanh toán và gửi Mail thành công");
         } else {
             $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
             $this->billRepository->update($bill->id, ['status' => "thanh toán thất bại"]);
@@ -303,16 +301,8 @@ class checkoutController extends Controller
         $bill = $this->billRepository->findByCode($codeBill);
         $tickets = $this->ticketRepository->getByBill($bill->id);
         if ($bill->status == 'đã thanh toán') {
-            $responseData = [
-                'bill' => [
-                    'code' => $bill->code,
-                    "total" => $request->vnp_Amount / 100,
-                    "message" => "Thanh toán hóa đơn qua Bank",
-                    "tickets" => DetailTicketResource::collection($tickets)
-                ]
-            ];
-            SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
-            return HttpResponse::respondWithSuccess($responseData, "Thanh toán và gửi Mail thành công");
+            $responseData = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return HttpResponse::respondWithSuccess($responseData->original["data"], "Thanh toán và gửi Mail thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }

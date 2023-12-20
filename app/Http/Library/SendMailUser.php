@@ -51,6 +51,7 @@ class SendMailUser extends Controller
             "payment_method" => $bill->payment_method,
             "total_price" => $total_price,
         ]; // Thay bằng dữ liệu đơn hàng
+
         Mail::to([$userEmail, "haubhpk02763@fpt.edu.vn"])->send(new OrderConfirmation($orderData));
 
         return HttpResponse::respondWithSuccess(($orderData), "Gửi mail xác nhận đơn hàng thành công");
