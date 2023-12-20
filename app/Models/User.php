@@ -59,7 +59,7 @@ class User extends Authenticatable
     {
         $appUrl = env('APP_URL');
 
-        $url = $appUrl . 'reset_password?token=' . $token . "&email=" . $this->email;
+        $url = $appUrl . 'api/reset_password?token=' . $token . "&email=" . $this->email;
 
 
         $this->notify(new ResetPasswordNotification($url));
