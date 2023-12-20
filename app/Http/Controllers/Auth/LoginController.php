@@ -30,9 +30,9 @@ class LoginController extends Controller
             $user->save();
             $token = $user->createToken("access_token", expiresAt: now()->addDay())->plainTextToken;
 
-            if ($user->email_verified_at == null) {
-                return HttpResponse::respondWithSuccess(['token' =>  $token], "email chưa được xác thực", 401);
-            }
+            // if ($user->email_verified_at == null) {
+            //     return HttpResponse::respondWithSuccess(['token' =>  $token], "email chưa được xác thực", 401);
+            // }
             return HttpResponse::respondWithSuccess([
                 'token_type' => "Bearer",
                 'access_token' => $token

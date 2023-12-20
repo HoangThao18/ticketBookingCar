@@ -18,6 +18,6 @@ class RegisterController extends Controller
         $userNew = $request->validated();
         $user = User::create($userNew);
         event(new Registered($user));
-        return HttpResponse::respondWithSuccess(null, "Đăng kí thành công, mời xác thực email");
+        return HttpResponse::respondWithSuccess(null, "Đăng kí thành công, mời bạn xác thực email");
     }
 }

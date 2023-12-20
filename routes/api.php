@@ -46,7 +46,7 @@ Route::get("/trip/{trip}", [TripController::class, 'show'])->name('trip.show');
 
 Route::get("/station", [StationController::class, 'index']);
 Route::get("/station/province", [StationController::class, 'getProvince']);
-Route::get("/news", [NewsController::class, 'index']);
+Route::get("/news", [NewsController::class, 'index'])->middleware('Cors');
 Route::get("/news/popular", [NewsController::class, 'getPopularNews']);
 Route::get("/news/lastest", [NewsController::class, 'getLatestNews']);
 Route::get("/news/{id}", [NewsController::class, 'show']);
@@ -67,11 +67,6 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("ticket/history", [TicketController::class, 'getHistory']);
-    Route::post('/email/verify/resend', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-
-        return HttpResponse::respondWithSuccess([], "đã gửi email xác thực");
-    })->middleware(['throttle:6,1'])->name('verification.send');
     Route::prefix('user')->group(function () {
         Route::get("/logout", [LogoutController::class, "logout"]);
         Route::get('profile', [LoginController::class, 'getUser']);
