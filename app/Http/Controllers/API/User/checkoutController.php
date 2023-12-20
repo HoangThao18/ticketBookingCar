@@ -179,8 +179,16 @@ class checkoutController extends Controller
         if ($request->vnp_TransactionStatus == 00) {
             $this->ticketRepository->updateStatus($ticketIds, "booked");
             $this->billRepository->update($bill->id, ['status' => "đã thanh toán"]);
-            $responseData = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
-            return HttpResponse::respondWithSuccess($responseData->original["data"], "Thanh toán và gửi Mail thành công");
+            SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            $responseData = [
+                'bill' => [
+                    'code' => $bill->code,
+                    "total" => $request->vnp_Amount / 100,
+                    "message" => "thanh toán hóa đơn",
+                    "tickets" => DetailTicketResource::collection($tickets)
+                ]
+            ];
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán và gửi Mail thành công");
         } else {
             $this->ticketRepository->updateStatus($ticketIds, "đã hủy");
             $this->billRepository->update($bill->id, ['status' => "thanh toán thất bại"]);
@@ -301,8 +309,16 @@ class checkoutController extends Controller
         $bill = $this->billRepository->findByCode($codeBill);
         $tickets = $this->ticketRepository->getByBill($bill->id);
         if ($bill->status == 'đã thanh toán') {
-            $responseData = SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
-            return HttpResponse::respondWithSuccess($responseData->original["data"], "Thanh toán và gửi Mail thành công");
+            $responseData = [
+                'bill' => [
+                    'code' => $bill->code,
+                    "total" => $request->vnp_Amount / 100,
+                    "message" => "thanh toán hóa đơn",
+                    "tickets" => DetailTicketResource::collection($tickets)
+                ]
+            ];
+            SendMailUser::sendOrderConfirmation($bill, $tickets, $tickets[0]->trip);
+            return HttpResponse::respondWithSuccess($responseData, "Thanh toán và gửi Mail thành công");
         } else {
             return HttpResponse::respondError("thanh toán thất bại");
         }
