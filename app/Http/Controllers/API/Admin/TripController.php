@@ -179,8 +179,8 @@ class TripController extends Controller
     public function statisticalTripDetail(Request $request)
     {
         $trips = $this->tripRepository;
-        $trips = $trips->getByStatus($request->status,$request->day);
-        if($trips == null){
+        $trips = $trips->getByStatus($request->status, $request->day);
+        if ($trips == null) {
             return HttpResponse::respondError("Không có chuyến xe nào tồn tại");
         }
         $statisticalTripDetail = [];
@@ -190,6 +190,7 @@ class TripController extends Controller
         foreach ($statisticalTripDetail as $key => $value) {
             $totalMoney = 0;
             $totalSeat = $value->car->number_seat;
+
             $ticket = $this->ticketRepository->getByTrip($value->id);
             $totalSeatSold = count($ticket);
             $tickets["trip_id"][$value->id] = $ticket;

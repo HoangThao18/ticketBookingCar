@@ -99,27 +99,31 @@ class TripRepository extends BaseRepository implements TripRepositoryInterface
       // $fromTime
       // $toTime
       // Filter by time
-      $dates = explode("/", $time);
-      $year = $dates[0];
-      $month = $dates[1];
-      $day = $dates[2];
-      $checkDay = $query->get();
-      $dayList = [];
-      foreach ($checkDay as $item) {
-        // Chuyển đổi chuỗi thành đối tượng Carbon
-        $carbonDate = Carbon::parse($item->arrival_time);
+      // dd($time);
+      $query->whereDate('departure_time', $time);
 
-        // Lấy ngày tháng năm dưới định dạng 'Y-m-d'
-        $dateFormatted = $carbonDate->format('Y-m-d');
-        $dayList[] = $dateFormatted;
-      };
-      if (!in_array("$year-$month-$day", $dayList)) {
-        return null;
-      }
 
-      $fromTime = date("Y-m-d H:i:s", strtotime("$year-$month-$day 0:00"));
-      $toTime = date("Y-m-d H:i:s", strtotime("$year-$month-" . ($day + 1) . " 23:59:59"));
-      $query->whereBetween('arrival_time', [$fromTime, $toTime]);
+      // $dates = explode("/", $time);
+      // $year = $dates[0];
+      // $month = $dates[1];
+      // $day = $dates[2];
+      // $checkDay = $query->get();
+      // $dayList = [];
+      // foreach ($checkDay as $item) {
+      //   // Chuyển đổi chuỗi thành đối tượng Carbon
+      //   $carbonDate = Carbon::parse($item->arrival_time);
+
+      //   // Lấy ngày tháng năm dưới định dạng 'Y-m-d'
+      //   $dateFormatted = $carbonDate->format('Y-m-d');
+      //   $dayList[] = $dateFormatted;
+      // };
+      // if (!in_array("$year-$month-$day", $dayList)) {
+      //   return null;
+      // }
+
+      // $fromTime = date("Y-m-d H:i:s", strtotime("$year-$month-$day 0:00"));
+      // $toTime = date("Y-m-d H:i:s", strtotime("$year-$month-" . ($day + 1) . " 23:59:59"));
+      // $query->whereBetween('arrival_time', [$fromTime, $toTime]);
     }
     return $query->get();
   }
